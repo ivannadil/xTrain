@@ -19,7 +19,7 @@ First complete prototype.
 - Progress (radar with baseline, scrubbable season chart, minutes by skill, consistency grid, totals), Achievements (level ladder, badges with real progress), Coach chat (scripted brain over the real plan), Profile (every spec editable, re-cut remaining weeks).
 - Design system recorded in `DESIGN.md` and `.impeccable/design.json`; product truth in `PRODUCT.md`; research in `docs/research/`.
 - Playwright flow tests (desktop and phone) and a capture spec that asserts zero horizontal overflow on every route.
-- Artifact build (`npm run build:artifact`) with hash routing for static hosts; Vercel config with SPA rewrites.
+- Artifact build (`npm run build:artifact`) with hash routing for static hosts; Vercel config with SPA rewrites; production at https://xtrain-pi.vercel.app.
 
-[Unreleased]: https://github.com/ishanvannadil/xTrain/compare/v0.1.0...HEAD
-[0.1.0]: https://github.com/ishanvannadil/xTrain/releases/tag/v0.1.0
+[Unreleased]: https://github.com/ivannadil/xTrain/compare/v0.1.0...HEAD
+[0.1.0]: https://github.com/ivannadil/xTrain/releases/tag/v0.1.0

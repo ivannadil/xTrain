@@ -6,7 +6,9 @@
 
 | | |
 | --- | --- |
-| Live prototype | https://claude.ai/artifact/1dEf752dbJvqghepzFaW5X (private until shared) |
+| Live site | https://xtrain-pi.vercel.app |
+| Source | https://github.com/ivannadil/xTrain |
+| Claude artifact | https://claude.ai/artifact/1dEf752dbJvqghepzFaW5X (private until shared) |
 | Version | 0.1.0, 2026-10-03 ([changelog](CHANGELOG.md)) |
 | Status | Working prototype on synthetic data; rule-based planner; no backend yet |
 | Stack | Vite, React 19, TypeScript, Tailwind v4, Motion, dnd-kit, Playwright |
@@ -47,6 +49,7 @@ npm run dev          # http://127.0.0.1:5173
 npm run test         # Playwright flow tests, desktop + phone
 npm run typecheck
 npm run build        # dist/ for Vercel (path routing, see vercel.json)
+vercel --prod        # deploy the current checkout to production
 npm run build:artifact   # dist-artifact/ for the Claude artifact host (hash routing)
 ```
 
@@ -76,9 +79,11 @@ docs            PROCESS, ARCHITECTURE, research reports, screenshots
 
 The demo player, their logged sessions, badge unlock percentages and coaching copy. No real users, prices, testimonials or camera-based coaching are claimed anywhere; the landing page's roadmap says what is real today.
 
-## Versioning
+## Versioning and releases
 
-Pre-1.0, every major change to what xTrain does or how it looks ships as a new minor version (0.2.0, 0.3.0): a dated [CHANGELOG](CHANGELOG.md) entry, a git tag, and a GitHub release with screenshots. Fixes that do not change behaviour are patches. 1.0.0 is the first version a real player trains with.
+Pre-1.0, every major change to what xTrain does or how it looks ships as a new minor version (0.2.0, 0.3.0). Fixes that do not change behaviour are patches. 1.0.0 is the first version a real player trains with.
+
+A release is cut in five steps: update [CHANGELOG.md](CHANGELOG.md) and add `docs/releases/vX.Y.Z.md` with fresh screenshots; bump `version` in `package.json`; commit and tag (`git tag -a vX.Y.Z`); push with tags; deploy with `vercel --prod` and publish the GitHub release from the tag using the release notes file. Release history: [docs/releases](docs/releases/).
 
 ## Author
 
