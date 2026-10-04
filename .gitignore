@@ -1,0 +1,9 @@
+node_modules
+dist
+dist-artifact
+test-results
+playwright-report
+.impeccable/review
+.impeccable/live
+.vercel
+.DS_Store
