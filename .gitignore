@@ -7,3 +7,4 @@ playwright-report
 .impeccable/live
 .vercel
 .DS_Store
+.env*
