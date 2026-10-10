@@ -18,19 +18,19 @@ let maskId = 0;
 // Shapes. Depth comes only from flat layers overlapping, never from shading.
 function makeCone(parent) {
   const g = el('g', { class: 'f-cone' }, parent);
-  el('circle', { r: 23, class: 'f-cone-brim' }, g);
-  el('circle', { r: 14, class: 'f-cone-top' }, g);
-  el('circle', { r: 6, class: 'f-cone-hole' }, g);
+  el('circle', { r: 19, class: 'f-cone-brim' }, g);
+  el('circle', { r: 11.5, class: 'f-cone-top' }, g);
+  el('circle', { r: 5, class: 'f-cone-hole' }, g);
   return g;
 }
 
 function makeBall(parent) {
   const g = el('g', { class: 'f-ball' }, parent);
-  el('circle', { r: 16, class: 'f-ball-skin' }, g);
+  el('circle', { r: 14, class: 'f-ball-skin' }, g);
   const pts = [];
   for (let i = 0; i < 5; i++) {
     const a = (-90 + i * 72) * (Math.PI / 180);
-    pts.push([Math.cos(a) * 7, Math.sin(a) * 7].map((v) => v.toFixed(2)).join(','));
+    pts.push([Math.cos(a) * 6, Math.sin(a) * 6].map((v) => v.toFixed(2)).join(','));
   }
   el('polygon', { points: pts.join(' '), class: 'f-ball-panel' }, g);
   return g;
@@ -39,14 +39,14 @@ function makeBall(parent) {
 function makePlayer(parent, mate) {
   const g = el('g', { class: mate ? 'f-mate' : 'f-me' }, parent);
   const turn = el('g', { class: 'f-turn' }, g);
-  el('circle', { r: 26, class: 'f-player-disc' }, turn);
-  el('path', { d: 'M-8 -4 L0 -15 L8 -4', class: 'f-player-nose' }, turn);
+  el('circle', { r: 22, class: 'f-player-disc' }, turn);
+  el('path', { d: 'M-7 -3 L0 -13 L7 -3', class: 'f-player-nose' }, turn);
   return g;
 }
 
 function makeWall(parent) {
   const g = el('g', { class: 'f-wall' }, parent);
-  el('rect', { x: 0, y: -8, width: 100, height: 32, class: 'f-wall-face' }, g);
+  el('rect', { x: 0, y: -6, width: 100, height: 28, class: 'f-wall-face' }, g);
   el('g', { class: 'f-wall-joints' }, g);
   return g;
 }
@@ -83,8 +83,9 @@ function wavy(svg, d, amp = 6, wave = 30) {
 }
 
 export class Field {
-  constructor(svg, { labels = true, compact = false, slab = false } = {}) {
+  constructor(svg, { labels = true, compact = false, slab = false, room = 0 } = {}) {
     this.svg = svg;
+    this.room = room; // share of the view kept free on the right (for the phone lying there)
     this.labels = labels;
     this.compact = compact;
     this.slab = slab;
@@ -96,11 +97,12 @@ export class Field {
     const mk = el('marker', { id: `arrow-${this.id}`, viewBox: '0 0 10 10', refX: 7, refY: 5, markerWidth: 7, markerHeight: 7, orient: 'auto-start-reverse', markerUnits: 'strokeWidth' }, defs);
     el('path', { d: 'M0 0 L10 5 L0 10 z', class: 'f-arrowhead' }, mk);
     if (slab) {
-      // the driveway: one concrete slab with its expansion joints
+      // the driveway: poured concrete with expansion joints every 250 units, wider than any view
+      svg.classList.add('is-slab');
       const g = el('g', { class: 'f-slab' }, svg);
-      el('rect', { x: 40, y: 34, width: 920, height: 590, rx: 22, class: 'f-slab-face' }, g);
-      el('line', { x1: 500, y1: 34, x2: 500, y2: 624, class: 'f-slab-joint' }, g);
-      el('line', { x1: 40, y1: 330, x2: 960, y2: 330, class: 'f-slab-joint' }, g);
+      el('rect', { x: -1500, y: -1200, width: 4000, height: 3000, class: 'f-slab-face' }, g);
+      for (let x = -1500; x <= 2500; x += 250) el('line', { x1: x, y1: -1200, x2: x, y2: 1800, class: 'f-slab-joint' }, g);
+      for (let y = -1200; y <= 1800; y += 250) el('line', { x1: -1500, y1: y, x2: 2500, y2: y, class: 'f-slab-joint' }, g);
     }
     this.layers = {
       zone: el('g', { class: 'f-zones' }, svg),
@@ -141,10 +143,15 @@ export class Field {
     const pad = this.compact ? 46 : 70;
     x0 -= pad; y0 -= pad; x1 += pad; y1 += pad;
     const aspect = 1000 / 640;
-    let w = Math.max(x1 - x0, this.compact ? 300 : 560), h = Math.max(y1 - y0, w / aspect);
+    let w = Math.max(x1 - x0, this.compact ? 300 : 440), h = Math.max(y1 - y0, w / aspect);
     w = Math.max(w, h * aspect); h = w / aspect;
     const cx = (x0 + x1) / 2, cy = (y0 + y1) / 2;
-    return [cx - w / 2, cy - h / 2, w, h].map((v) => +v.toFixed(1));
+    let v = [cx - w / 2, cy - h / 2, w, h];
+    if (this.room) {
+      const k = 1 + this.room;
+      v = [v[0], cy - (h * k) / 2, w * k, h * k];
+    }
+    return v.map((n) => +n.toFixed(1));
   }
 
   cone(i) {
@@ -190,7 +197,10 @@ export class Field {
       tl.to(oldPaths, { autoAlpha: 0, duration: 0.18 * D, ease: 'power1.in', onComplete: () => oldPaths.forEach((n) => { if (n._mask) n._mask.remove(); n.remove(); }) }, 0);
     }
 
-    const view = this.fixedView || (this.slab ? [0, 0, 1000, 640] : this.frame(drill));
+    const view = this.fixedView || this.frame(drill);
+    // route labels never render smaller than 14px, whatever the zoom
+    const scale = Math.min(this.svg.clientWidth / view[2], this.svg.clientHeight / view[3]) || 1;
+    this.labelSize = Math.max(20, 14 / scale);
     if (D) tl.to(this.view, { 0: view[0], 1: view[1], 2: view[2], 3: view[3], duration: 1.1, ease: 'expo.inOut', onUpdate: () => this.svg.setAttribute('viewBox', this.view.join(' ')) }, 0);
     else { this.view = view.slice(); this.svg.setAttribute('viewBox', view.join(' ')); }
 
@@ -280,9 +290,9 @@ export class Field {
         let ref = centre(drill);
         if (others.length) ref = others.reduce((best, m) => (Math.hypot(m[0] - at.x, m[1] - at.y) < Math.hypot(best[0] - at.x, best[1] - at.y) ? m : best));
         if ((at.x - ref[0]) * nx + (at.y - ref[1]) * ny < 0) { nx = -nx; ny = -ny; }
-        const off = p.kind === 'dribble' ? 34 : 26;
+        const off = (p.kind === 'dribble' ? 34 : 26) * (this.labelSize / 22);
         const anchor = Math.abs(nx) > 0.6 ? (nx > 0 ? 'start' : 'end') : 'middle';
-        const t = el('text', { x: at.x + nx * off, y: at.y + ny * off + 7, class: 'f-label', 'text-anchor': anchor }, this.layers.labels);
+        const t = el('text', { x: at.x + nx * off, y: at.y + ny * off + 7, class: 'f-label', 'text-anchor': anchor, 'font-size': this.labelSize.toFixed(1) }, this.layers.labels);
         t.textContent = p.label;
         tl.fromTo(t, { autoAlpha: 0, y: '+=6' }, { autoAlpha: 1, y: '-=6', duration: 0.4 * D, ease: 'power3.out' }, drawAt + 0.25 * D + i * 0.16 * D);
       }
