@@ -1,308 +1,470 @@
-# xTrain — Visual + Motion Design Reference Research
+# Design references: craft research for the xTrain landing rebuild
 
-Date: 2026-10-03
-Scope: marketing sites and product UIs of AI/data-driven sports & fitness products, plus award-level "futuristic AI product" sites studied for motion language only.
-Method note: Hex values, type scales, easing curves and durations below come from (a) live-CSS token extractions published by webdesignhot.com / shadcn.io / design.hagicode.com "design.md" indexes, (b) agency case studies, (c) screen-by-screen UX teardowns (screensdesign.com), (d) Awwwards entry pages, and (e) direct fetches of the marketing sites. Treat tokens as "exact-ish": they are measured from production CSS by third parties, not published brand books. Where a site blocked fetching (whoop.com, web.meetcleo.com) I relied on the token extraction + case study + press.
+Captured 2026-10-10 with headless Chrome (Playwright, 1440x900). Each site got hero and scroll frames, an intro-frame burst (8 frames about 140 ms apart from first paint), a CSS census of every stylesheet (cubic-bezier counts, durations, keyframe names, tracking), a `document.getAnimations()` snapshot, computed transitions, GSAP tween dumps where GSAP was on `window`, and targeted DOM probes. Raw captures live in `research/craft/<slug>/`. The synesdj teardown exists separately and is not repeated here.
 
----
+**Sites captured (20).** Product craft: Linear, Raycast, Family, Cosmos, Arc, Dia, Rive, Luma, Vercel Ship '26, Nothing, Teenage Engineering. Sport and performance: On (LightSpray launch page), WHOOP, McLaren Racing, Oracle Red Bull Racing, Williams Grand Prix Technologies, and from the Awwwards Sports category (Jul–Sep 2026): **The Immortals** (World Cup history), **The Last Tango** (Messi tribute), **United in Football** (2026 World Cup), **Lacoste Ace Breaker** (Site of the Day), **The Performance Lab**.
 
-## Part 1 — Reference captures
-
-### A. AI / data-driven sports & fitness products
-
-#### 1. WHOOP (whoop.com + app)
-1. **Hero**: Full-bleed black band, 160px vertical padding, 72px/800 uppercase headline ("OPTIMISE EVERY EFFORT"), 18px sub-copy, lime CTA + white-outline secondary. Site redesign by Basic Agency: "Motion was a major component of the new experience," with "progressive disclosure used to help audiences dig deeper without being overwhelmed." Three audience segments (elite athletes, professionals, everyday optimizers) each get tailored journeys; all content modular via Contentful.
-2. **Color**: Canvas `#000000`, card lift `#0a0a0a`, `#141414`, `#1f1f1f`. Single brand "voltage" lime `#a0d10b` (hover `#88b609`, active `#739707`), black text on lime (13.6:1). Recovery bands: green `#16ec06` (67–100%), yellow `#ffde00` (34–66%), red `#ff0026` (0–33%). Strain blue `#0093e7`, sleep blue `#7eb8d9`, HRV purple `#9c7ed9`. Lime glow `0 0 24px rgba(160,209,11,0.25)` on featured/hover only.
-3. **Type**: Inter throughout, weights 400–900. Score display 96px/800 `-3px` tracking with `tnum`; hero 72/800 uppercase `ss01`; eyebrows 11px/700 uppercase `+0.18em`; score labels 11/700 `+0.16em`. Principle: "Heavy 700–800 weights signal conviction (opposite of Oura's 300 whisper)… uppercase everywhere except body."
-4. **Signature motion**: Recovery ring `stroke-dashoffset` 0→score over **1500ms** with "precise" ease `cubic-bezier(0.65,0,0.35,1)` plus numeric count-up; Strain arc 0→strain/21 same curve; sparkline draw 1200ms on viewport intersect; CTA hover scale 1.02 / press 0.98 at 150ms; card hover border `#141414→#2e2e2e` + lime-glow fade 240ms. Reduced motion: fills instant, opacity only.
-5. **Personalization / AI**: WHOOP Coach (GPT-4, launched Sept 2023) is "a text input box on the main Whoop screen" that returns conversational answers from the member's own biometrics; "the more data you share… the more effective and pointed WHOOP Coach becomes." No elaborate generation theatre; the AI lives inside the data screens.
-6. **Dashboard**: Recovery ring card (`#0a0a0a`, 8px radius, 240px ring, 14px stroke, bg `#1f1f1f`), Strain semi-circular arc card, metric tiles (label 11/700 uppercase, 18/600 tnum value, 24px sparkline, variance caption). Empty state copy: "Wear your strap for 4 nights to see your first Recovery score."
-7. **Plan editor**: n/a (WHOOP doesn't plan sessions).
-8. **Library**: n/a.
-9. **Premium tells**: "8px radius parity between buttons AND cards" = athlete-equipment utility; one accent only; tabular numerals on every metric; shadows reserved for hover/modal; everything else tonal. Voice: "the sport scientist on the team's training staff."
-
-#### 2. Oura (ouraring.com + app, Nov 2025 redesign)
-1. **Hero**: Two versions exist in the wild. Storefront (shadcn/webdesignhot capture): warm sandstone canvas `#f7f1e8`, 96px/500 negative-tracked h1, serif-italic phrase flip. Instrument's redesign case study: "progressive disclosure… leveraging layers of information, animation, and micro-interactions to help people understand the big picture," mixing in-app UI, data viz components, lifestyle photography and CGI ring renders; micro-interactions "anchor important conversion moments."
-2. **Color**: Dark system: canvas `#000000`, card `#0d0d0d`, `#1a1a1a`, champagne gold accent `#d6c283` (hover `#c4ae6a`), gold glow `rgba(214,194,131,0.2)`. Score ring hues: readiness `#84d97e`, sleep `#7eb8d9`, activity `#d9b67e`, stress `#d97e84`, resilience `#9c7ed9`. Brand guide adds Helsinki Blue `#2F4A73` and Skin Tone `#E6DED3`. Light storefront: sandstone `#f7f1e8`.
-3. **Type**: Storefront: Editorial New (high-contrast serif) for headings, AkkuratLL sans for body; "once per heading, a single phrase flips to Editorial New serif italic — that one swap is the entire brand-voice signature." Dark system: Inter 300–600; hero 80px/**300** `-2.5px`; score display 96/300 `-3px` tnum; eyebrow 11/500 `+0.2em`.
-4. **Signature motion**: Score ring stroke 0→score% **1200ms** precise ease; product 360° rotate 8000ms loop; carousel 480ms; card hover 320ms; gold-glow halo on hover. Easing set: standard `(0.4,0,0.2,1)`, emphasized `(0.2,0,0,1)`, precise `(0.65,0,0.35,1)`.
-5. **Personalization / AI**: Oura Advisor (2025) "helps you understand the *why* behind your body's signals," now reads sleep trends, activity, Meals; can "create a plan to reach targeted health goals." New app uses "color strategically to signal your body's different states according to your biometrics, giving you an immediate visual signal."
-6. **Dashboard**: "One big thing" — Today tab surfaces "the most important score or insight you need right now" plus "any unusual key metrics." Tabs: Today / Vitals (anchored to "your unique, personalized baselines") / My Health (long-term visualizations of strengths, trends, opportunity areas). New Habits & Routines links behaviours to metrics.
-7. **Plan editor**: n/a.
-8. **Library**: n/a.
-9. **Premium tells**: Weight-300 whispers at 96px; one metal accent; AAA contrast; `role="meter"` on rings; the serif-italic flip. Explicitly rejects "neon-green heart-rate gradient… dashboard mockup behind glass… slate-and-cyan dark canvas."
-
-#### 3. Strava (web + Athlete Intelligence)
-1. **Hero**: White "fresh-GPS-screen" canvas, 64px/700 Inter `ss01` headlines, map overlays with orange route lines on every activity card.
-2. **Color**: Canvas `#ffffff`, band `#f7f7fa`, ink `#242428`, single Strava Orange `#fc4c02` (hover `#e04401`, active `#c33b00`) used for wordmark, every CTA, kudos thumb, map route, focus ring. Achievement gold `#fdb515`. Brand glow `0 0 16px rgba(252,76,2,0.25)` on PR/achievements only.
-3. **Type**: Inter display + body; Strava Sans Rounded wordmark only. Metric display 32/700 tnum; metric label 11/600 uppercase `+0.08em`; CTA 14/700 uppercase `+0.04em` ("broadcast-graphic discipline").
-4. **Signature motion**: Map route draw `stroke-dasharray` 0→100% **1200ms** on mount; kudos burst (thumb rotates −15°→0°, scale 1→1.3→1, orange ripple) 400ms with energetic `cubic-bezier(0.34,1.56,0.64,1)`; PR celebration fade+scale 0.8→1 + glow 400ms; page transitions 320ms.
-5. **Personalization / AI**: Athlete Intelligence (beta, 2024→) "presents your activity data in a conversational format" as in-app messages in the You tab, e.g. "you're nailing endurance with most of your workouts in Zone 2. Dabbling more in zone 3 could bring some exciting gains." Detects 30-day trends and milestones. This is the cleanest example of "because you did X → try Y" copy.
-6. **Dashboard**: Activity card = avatar + title + 16:9 map + 3-column metric strip (value 32/700 tnum over 11/600 uppercase label) + social row.
-7/8. n/a.
-9. **Premium tells**: One orange, tabular numerals, rectangular 8px CTAs vs pill kudos as "signature social atom," subtle neutral shadows with glow only on celebrations.
-
-#### 4. Peloton
-1. **Hero**: Hardware-commerce page "dressed as an editorial fitness brand"; photography of Bike+/Tread/Row captioned by Inter. Reads "like an appliance store that happens to sell hardware you sweat on" rather than gradient-banner fitness.
-2. **Color**: Two captures disagree on the exact red (`#df1c2f` on white chrome per shadcn; `#cb1e4e` on `#0d0d0d` studio-dim canvas per webdesignhot). Either way: one red, reserved for primary purchase CTA and the live indicator; gold `#ffc300` for PRs.
-3. **Type**: Inter, display 72px/800 `-2px`, metric display 56px/**900** tnum, CTA 16/700 uppercase.
-4. **Signature motion**: Live indicator 8×8 red dot infinite pulse; class card live-indicator 1200ms opacity loop; CTA hover scale 1.02/active 0.97; celebration bucket **600ms**; energetic easing `(0.34,1.56,0.64,1)`.
-6. **Dashboard**: Leaderboard rows 18/800 tabular rank, user's own row tinted brand-soft.
-8. **Library**: Class card 12px radius, 16:9 thumbnail, instructor, pulsing live dot.
-9. **Premium tells**: Photography does the work; UI chrome is restrained; a single pulse animation carries "live."
-
-#### 5. Fitbod (fitbod.me + app)
-1. **Hero**: "LESS PLANNING. MORE PROGRESS." + "Fitbod creates a personalized workout plan that updates with your body, recovery, and progress." Apple Editor's Choice badge, 4.8★/250k reviews/15M downloads as proof row. Pink accent stars.
-2–3. Light marketing site; app is dark with coral/pink accent (not token-extracted).
-4. **Signature motion**: Post-workout confetti (teardown calls it "generic"); contextual tooltips during first workout.
-5. **Personalization / AI** — the best "why" model in the set: a **muscle-recovery body map** "shows which muscles are fresh or fatigued, explaining the logic behind the day's workout"; the daily workout card "shows target muscle groups, estimated difficulty, and a 'why this today' explainer"; post-exercise **Exertion Rating** "makes users an active participant in the personalization process"; "adaptive AI learns from your edits." Onboarding: 14 steps, "incredibly detailed" equipment selection, "tangible strength gain projections" shown before signup; paywall appears "after the first workout is created but before it's started."
-6. **Dashboard**: Today's workout card + body heat map + Gym Profiles switcher.
-7. **Plan editor**: swap/replace exercises; the engine "behaves more like a load-balancing system for strength training."
-9. **Premium tells**: The product explains itself through a visual (body map), not a paragraph. Weak spot: in-workout UI "clean but dense with information."
-
-#### 6. Freeletics
-1. **Hero**: "Personalized fitness in the palm of your hand" → "Start your plan now." Proof row: 450M sessions, "4 trillion workout combinations," 700+ exercises.
-2–3. Light `#F5F8FA`-ish canvas, dark text, photography-led; Dribbble shots show dark in-app Training Journeys with bold condensed numerals.
-5. **Personalization / AI**: Coach collects goals, schedule, days, location; Coach+ (LLM) "supports users during onboarding, helps them select a Training Journey… answers questions." Marketing frames adaptation as lifestyle flexibility ("Busy? We got you." / "No gym? No problem.") rather than algorithm theatre.
-8. **Library**: 700 exercises, six guide cards (HIIT, functional, progressive overload…).
-9. Tell: huge combinatorial numbers as credibility; transformation gallery (dated pattern — avoid for xTrain).
-
-#### 7. Runna (runna.com + app V3)
-1. **Hero**: "Running made simple" over lifestyle photography, "Start Your Free Trial — First week free." Site: dark navy/charcoal sections, white text, teal/turquoise CTAs, numbered feature cards ("powered by the Runna Engine"), interactive race-time calculator.
-2. App: dark theme primary, white logo on black splash, **coral-red progress bar** during generation.
-4–5. **The generation moment**: 30-chapter onboarding (goal, terrain, ability, race time, weekly frequency) → "Training Preferences Summary" → "Plan Summary" → paywall → loading screen with **"Building your plan"** + coral progress bar + illustrated running-shoe loader → plan details + **coach introduction**. 2026: personalised "Workout Briefings" before/during each run; "no two users receive the same briefing."
-6. **Dashboard**: Plan overview = week ahead, completed vs remaining at a glance, **total km for the week**; weekly schedule as daily rows with type, distance, completion checkbox; scroll between weeks.
-7. **Plan editor** (V3 "Enhanced Training Calendar"): "reschedule workouts and move them between weeks"; workout configuration modal (time picker, Outdoor/Treadmill toggle, skip workout); **"Not Feeling 100%"** dials training load down for 3–14 days (adjusts intensity or removes pace targets). Run types visually differentiated (Easy / Steady / Tempo / Long).
-9. Tell: the coach-as-human layer (named coaches, briefings) on top of the engine; confetti on subscription (skip).
-
-#### 8. Tonal
-1. **Hero**: "Get your time back. Get your strength back." dual image previews, DISCOVER / SHOP NOW, HSA/FSA badge. Sections: adaptive weight ("weight that adapts to you," 1-lb increments, real-time display), form feedback overlays, Daily Lift.
-5. **Personalization / AI**: "Daily Lift" workouts built "based on your training history, muscle readiness, goals, and available time"; "automatically tracks your progress and unlocks insights about your strength" (Strength Score). Tia intelligent assistant in blog.
-9. Tell: hardware photography + on-screen data overlays; black/white with a warm accent.
-
-#### 9. Athletica (athletica.ai, 2025 "New Training Experience")
-1. **Hero**: Stacked three-line headline "Train Smarter. / Finish Stronger. / Live Healthier." + "Adaptive training plans that adjust to your fitness, fatigue, and schedule." Dark canvas, white type, media-logo carousel, three product screenshots (dashboard, weekly grid with duration/load, Garmin watch).
-5. **Personalization / AI**: Conversational AI Coach "trained on a curated sport science knowledge base" with "direct access to your actual training data"; crucially "**the AI Coach does not automatically modify your training**" — it suggests, you decide. Section titles: "Your training finally answers back," "Performance without panic."
-6. **Dashboard**: "Today's session, upcoming target events, training phase, and current state and recovery"; left-nav: Calendar, Dashboard, Roadmap, Plan Builder, Workout Wizard, Session Analysis, AI Coach, Insights, Recovery Profile.
-7. **Plan editor**: Calendar month/week; Plan Builder + Workout Wizard; session analysis "connects effort, intent, and outcome."
-9. Tell: honest about AI's role (suggest vs auto-change). Visual execution is utilitarian (B2B-ish).
-
-#### 10. Future / Ladder
-- **Future** (future.co): "Personal training, reimagined," $199/mo; hero = phone video; coach video check-in notification ("Nice lift, Alex!"); "360° roadmap" personalization showcase built around a named persona (Michelle: schedule, equipment, experience, injuries, goals). Neutral palette, photography.
-- **Ladder** (Apple 2025 App of the Year finalist, Editors' Choice): "your daily strength training plan," coach-led "teams," weekly 7-day plans, workout player with in-ear audio cues, **video for every movement**, PR tracking. Positioning: "not about making things look pretty but about building an interface and journey members can't live without."
-- Tell for xTrain: both sell the plan through a *person* (coach) and a *persona* (profile summary) — the "because you said X" surface is literally a profile recap card.
-
-#### 11. Zwift
-1. "Indoor Cycling, Made Fun." centered hero, animated GIF product banner, three pathway cards. Copy: "Personalized training plans that adapt to your progress."
-2. Rebrand: "Big Zee" logo, orange symbol, "neon-oriented" set with custom water/cloud graphics, "bolder, brighter tone." Lower-case geometric wordmark "aligning with gaming and software aesthetics."
-6. Homescreen redesign puts social events front and center with consistent top nav and better filtering.
-9. Tell: game-engine footage is the hero; the UI borrows from games (events, routes, drops).
-
-#### 12. Soccer analytics & wearables — Hudl, Catapult, Playermaker
-- **Hudl**: "Change the Way You See the Game." Animated collage of athletes rotating sports; floating trophies/jerseys drift across sections; embedded floating video demos; "3D View for Volleyball" callout; navy/dark canvas, white text, orange + teal accents. Product UI: film-review frames, scatterplots, **radar charts** for athlete performance; Statsbomb platform shows radar + bar + pitch scatter linked to video; Wyscout = soccer database.
-- **Catapult**: "Unleash Potential," stat focal points (128+ countries, 5500+ elite teams); minimal, enterprise. Athlete-load dashboards not shown on home.
-- **Playermaker** (foot-mounted sensor, soccer): "Become the Player You're Meant to Be"; club logo carousel; app UI shows **skill metrics (passing, shooting, dribbling), left/right foot usage breakdown, performance Targets, weekly drills, session reports benchmarked against academy/pro players**; "personalized Targets based on Optimal Actions," "step-level and touch-level accuracy." Light canvas, dark text.
-- Tell: B2B soccer tech = navy + data density. Playermaker's *metrics taxonomy* (skills × feet × targets × drills) is the closest content model to xTrain.
-
-#### 13. Nike / NTC, Garmin, Apple Fitness+, Arc'teryx (sport authority references)
-- **Nike**: canvas `#ffffff`, ink `#111111`, soft cloud `#f5f5f5`; Nike Futura ND display 96px/500 line-height **0.9**; Helvetica Now Text body; **zero radius** on cards/tiles, 30px pills for all CTAs; filter chip inverts white→black on active; "tap collapse" press = `scale(0.5) opacity 0.5`; durations 100/200/300ms; flat (no card shadows).
-- **Garmin**: Oswald display + Roboto body, black primary button with **zero radius**, accent blue `#007cc3`; motion `cubic-bezier(0.2,0,0,1)` 120/220/420ms; reduced-motion freezes carousels. Connect 2025 redesign: customizable Home, **"In Focus" swipeable panel** that shows Training Readiness *and the six factors behind it*; Competitions leaderboard on home.
-- **Apple Fitness+**: In-workout screen trimmed to three items (countdown, time left, one ring) for iPhone-only users after the original "busy" three-ring overlay was found distracting; Burn Bar compares you to prior participants.
-- **Arc'teryx**: "cinematic editorial spread": Elan ITC Pro uppercase 400 display at 32px floating lower-left over full-bleed photography, Helvetica Now body, charcoal `#1a1a1a` ink, essentially **0px corners** sitewide; "every band carries its own photograph or its own surface tone."
-- Tell: sport authority = square corners, condensed/uppercase display, photography, one ink. Softness (big radii, pastel gradients) reads consumer-wellness, not performance.
-
-#### 14. Onboarding & plan-editor pattern sources — Zing Coach, TrainingPeaks
-- **Zing AI**: 40-step onboarding framed as a conversational consultation with coach "Jennifer" (chat bubbles, encouraging feedback after key answers); **tap-and-hold to "sign" a commitment pledge**; "every animation feels… built by the UI gurus at Apple"; full-screen exercise animations; plan editor supports **add / replace / reorder / delete exercises with gestures**; Analytics tab with body scan + muscle recovery.
-- **TrainingPeaks calendar refresh**: workout cards keep a **bright compliance color band at the top** and tone down the rest for WCAG contrast ("black text on red background… not visually accessible"); consistent title/subtext/icon placement; drag-and-drop to move workouts across days.
-- Tell: color-code a *strip* of the card, not the whole card.
-
-#### 15. Soccer / sport motion sites (Awwwards 2025–2026)
-- **Goals** (football game, 14islands; Awwwards SOTD + Dev + HM, CSSDA SOTD, FWA SOTD): "parallax scroll animations to make the site feel alive and deep," "Goals is about how football feels so smooth motion was of the essence."
-- **Lacoste Ace Breaker** (Merci Michel; SOTD + Dev Award, Aug 3 2026): WebGL/Three.js brick-breaker, fullscreen, unusual navigation; palette dark green `#082415` + golden yellow `#FCD757`; Dev scores: Animations/Transitions **9.2/10**.
-- **The Performance Lab** (.RAW; HM Aug 1 2026; "Canada's #1 sports science centre"): Three.js + Next.js; palette `#FF350D` + `#171717`; homepage scroll effects, page transitions, parallax on services, **horizontal card scrolling**, menus with scroll-state tracking, tabs with timers. Community score 8.35.
-- Also on the Awwwards sports list, Jul–Sep 2026: World Cup "The Immortals" (HM), WC 2026 "Data Portraits," Williams Grand Prix Tech (HM), Cadillac F1, Radian (UNCOMMON; SOTD + Dev), ORBEA (HM), Montreal Canadiens Foundation (HM).
-- Older but canonical: adidas CHILE20 by **Active Theory** (Webby nominee): garments built as WebGL meshes via Marvelous Designer → C4D polygon reduction → VDB meshing; Nike Free zoetrope WebGL (Sehsucht).
-- Tell: sport sites that win do one WebGL idea tied to the sport object (bricks, ball, garment), not an abstract blob.
-
-### B. Award-level "futuristic AI product" sites (motion language, not product)
-
-#### 16. Linear
-- Canvas `#08090a` (marketing `#010102`), levels `#0f1011` / `#141516` / `#1a1b1d`; brand indigo `#5e6ad2` **accent-only**; CTAs are near-white `#e5e5e6` pills with `#08090a` text. Inter Variable (weight **510**), display-hero 80px `-0.025em`; Berkeley Mono for shortcut chips 11px uppercase. Page width capped 1024px, "refuses stretch."
-- Motion: durations **80/120/180/280ms**; button hover `translateY(-1px)` 120ms; card hover border/bg only, **no transform**; modal slide 8px 280ms emphasized; page transition opacity 200ms; reduced-motion converts transforms to opacity. Sticky header `rgba(8,9,10,0.72)` + `blur(12px) saturate(180%)` — the only glass on the site.
-- Premium tells: tonal layering instead of shadows; shadows only on floating UI; focus ring as box-shadow not outline; shortcut chips in mono.
-
-#### 17. Vercel
-- White `#ffffff` + `#171717`; workflow accents Ship red `#ff5b4f`, Preview pink `#de1d8d`, Develop blue `#0a72ef`. Geist Sans with **aggressive negative tracking (−2.4 to −2.88px at 48px)** "like code that's been minified for production"; Geist Mono. **Shadow-as-border**: `box-shadow: 0 0 0 1px rgba(0,0,0,0.08)` everywhere; multi-layer shadow stacks never exceed 0.1 opacity.
-- Tell: "gallery-like emptiness where every element earns its pixel."
-
-#### 18. Raycast
-- Canvas `#07080a` ("blue-shifted, not pure black… pure black breaks aesthetic"); surface `#101111`; brand red `#FF6363`; interactive blue `#55b3ff`. Inter with `ss03`, **positive** letter-spacing +0.2–0.4px on body "to compensate for dark backgrounds"; GeistMono code. Hero: diagonal red stripe pattern; actual macOS window chrome as content.
-- Depth: 5-layer keycap shadow stacks (gradient + 3 insets) and double-ring card containment; hover = opacity 0.6, not color swaps. No noise texture; "glass effect achieved via shadow layering."
-
-#### 19. Resend
-- Void black `#000000`, near-white `#f0f0f0`; signature **frost border** `rgba(214,235,253,0.19)` and ring `rgba(176,199,217,0.145) 0 0 0 1px` replace shadows. Domaine Display serif 96px/400 hero, ABC Favorit 56px `-2.8px` sections, Inter body, Commit Mono. Extraction notes "no 3D effects, particles, or gradients in core system" — the famous hero cube is a one-off set piece, not the system.
-- Tell: "theater-like experience where content performs on a void stage."
-
-#### 20. Cursor
-- Warm cream `#f2f1ed`, warm near-black `#26251e`, orange `#f54e00`. Three-font hierarchy: CursorGothic 72px/400 `-2.16px`, jjannon serif body 19.2px, Berkeley Mono. **Agent timeline step colors**: Thinking `#dfa88f`, Grep `#9fc9a2`, Read `#9fbbe0`, Edit `#c0a8dd` — a reusable pattern for color-coding "what the AI is doing right now." Card shadow 28–70px blur diffused; color transitions 150ms, shadow 200ms.
-
-#### 21. Perplexity
-- Cream `#fbf9f5`, charcoal `#272520`, Tropic cyan `#20808d`; pplxSans weights 400/500 only (no 700); pill composer 9999px. Motion 120/200/320/480ms, reduced-motion halves durations. **Loading copy is process-aware: "Searching sources…", "Reading 12 sources…", "Generating answer…"** — the canonical "AI thinking" state.
-
-#### 22. ElevenLabs
-- Light `#ffffff` / dark `#0a0a0a`, lime brand `#9fe870` (hover `#8ad65e`/`#b3ee85`), surface `#161616`. Waldenburg **300** display ("whisper-thin titles") with InterDisplay fallback, Inter body +0.14–0.18px tracking, JetBrains Mono. Studio glow `0 0 60px rgba(159,232,112,0.18)` on the audio widget only. Motion: 80/150/220/320/480ms, waveform 600ms, spring `(0.34,1.56,0.64,1)`.
-
-#### 23. Runway
-- Pure black/`#030303`/`#1a1a1a`; cool slate `#767d88` secondary; **no interface gradients, zero shadows** — "depth comes from lighting, focus, and composition." abcNormal single typeface 48px/400 `-1.2px` line-height 1.0 ("film-title density"); weight 450 micro-labels; uppercase captions `+0.35px`. Full-viewport video with dark overlays; "cinematic photography IS the design."
-
-#### 24. 2026 Awwwards AI SOTDs — Cleo AI (OddCommon, May 23), Sidewave (May 22), Serve Robotics (June 11)
-- Cleo AI: video-driven hero + scroll animation, "Heart Motion," character-led money chatbot (site blocked fetch; Awwwards tags: hero animation, scroll animation).
-- Serve Robotics: "The future is here" with **fragmented/split headline across the viewport**, 3D delivery robot as centerpiece, scroll-driven reveals, dark charcoal + white, "minimalist kinetic design: staggered text reveals, smooth image transitions, measured scroll responsiveness… rather than aggressive animations."
-- Lusion (studio): "3D visual storytelling," 120fps liquid-glass benchmark site; clients Oryzo AI, Devin AI, Atlas Motion, Porsche Dream Machine; scroll-prompted ("CONTINUE TO SCROLL") narrative.
+Cookie and newsletter overlays were hidden with injected CSS. Nothing was accepted, submitted or signed up for.
 
 ---
 
-## Part 2 — Cross-cutting patterns (what the premium set shares)
+## 0. The short version
 
-**Token-level**
-- Canvas is near-black with a tint, not `#000`: Linear `#08090a`, Raycast `#07080a`, Peloton `#0d0d0d`, Runway `#030303`. The two that use true black (WHOOP, Oura dark, Resend) compensate with a single warm/metal accent and frost/glow borders.
-- One "voltage" accent, used for CTA + focus + one data highlight, never for surfaces: WHOOP lime, Strava orange, Peloton red, ElevenLabs lime, Linear indigo (accent-only), Perplexity cyan.
-- Lime/acid green is the de facto "AI × performance" accent (WHOOP `#a0d10b`, ElevenLabs `#9fe870`) — relevant because turf green can be pushed there.
-- Inter is the body font on 9 of the sites; differentiation comes from the *display* face (Editorial New, Domaine, Futura ND, Elan ITC, Waldenburg 300, CursorGothic) and from a **mono for data labels** (Berkeley Mono, Geist Mono, JetBrains Mono, Commit Mono).
-- Metrics always use `tnum`; labels are 11px uppercase with +0.08–0.2em tracking; scores are 64–96px.
-- Radius: 8px parity (WHOOP), or zero (Nike, Garmin, Arc'teryx) for sport authority; pills only for chips/avatars/one CTA style.
-- Depth via tonal layering and 1px hairlines (`rgba(255,255,255,0.06)`), shadows only on floating UI; glow reserved for hover/featured/celebration.
-
-**Motion-level**
-- Durations cluster at 120–320ms for UI; **1200–1500ms "precise" `cubic-bezier(0.65,0,0.35,1)` for data fills** (rings, arcs, route draws, sparklines) with simultaneous count-up; 400–600ms energetic `cubic-bezier(0.34,1.56,0.64,1)` reserved for *celebrations* (kudos, PR).
-- Hover = opacity/border/1px lift. Card hover never scales (Linear). CTA press scale 0.97–0.98.
-- Every token set documents `prefers-reduced-motion` → opacity-only / instant fills.
-- Award sport sites: one WebGL idea tied to the sport object, parallax depth, page transitions, horizontal card rails, fragmented split headlines.
-
-**The "AI generated your plan" moment — composite of best practice**
-1. Collect inputs conversationally (Zing chat consult; Runna 30 chapters) and show a **Preferences Summary** card before generating (Runna; Future's "Michelle" persona card).
-2. Generation screen uses **process-aware steps** (Perplexity) with per-step color (Cursor timeline) and a determinate bar (Runna coral bar), not a spinner.
-3. Reveal follows skeleton → stream → done; layout of skeleton matches the plan grid so nothing jumps.
-4. Explain *why* with a visual (Fitbod body map → for xTrain, a skill radar/weak-foot split) and one-line conversational insights ("you're nailing endurance in Zone 2…" — Strava AI).
-5. Make the AI's authority explicit: suggests, doesn't silently rewrite (Athletica); learns from edits and an exertion/feel rating (Fitbod).
-6. Introduce a coach/persona at the end (Runna coach intro; Ladder teams).
-
-**Dashboard patterns**: one big thing (Oura) → today's session + readiness ring/arc (WHOOP) → week strip with completed/remaining + total volume (Runna) → swipeable "In Focus" with the factors behind the score (Garmin) → recent activity with map/metric strip (Strava) → leaderboard/competitions (Peloton, Garmin).
-
-**Plan editor patterns**: drag across days/weeks (TrainingPeaks, Runna), compliance/intensity as a top color band not a full-card fill (TrainingPeaks), swap/replace/reorder/delete gestures (Zing), "Not feeling 100%" load dial for N days (Runna), regenerate with the AI suggesting rather than overwriting (Athletica), per-session config modal with time picker + skip (Runna).
-
-**Library patterns**: filter chips that invert on active (Nike), card with 16:9 preview + live/new state dot (Peloton), video for every movement (Ladder), difficulty + equipment metadata (Fitbod gym profiles), radar/scatter linked to video (Hudl).
+1. **The best pages use the product as the illustration.** Linear, Raycast, Dia, Family and Luma build real UI in HTML (or play screen recordings inside device frames) and let it run: timers tick, "Working…" shimmers, prompts type. Nobody uses a stock 3D blob. For xTrain the equivalent is a live session card plus a pitch diagram that draws itself.
+2. **Sites that feel expensive use fewer words.** Words on the home page: Last Tango 45, Teenage Engineering 153, Cosmos 230, Immortals 237, Vercel Ship 352, Nothing 362, United 411, Luma 521, Dia 588. The busy pages run 1,100–1,760 words: WHOOP 1,129, McLaren 1,221, Linear 1,508, Family 1,744, Raycast 1,759. **Target: 300–450 words** for the whole page.
+3. **They use one accent and spend it rarely.** Linear's marketing chrome is fully monochrome; colour shows up only inside product UI and two testimonial cards. Williams puts `#0042FF` only on its single primary CTA and the 6 px label squares. Dia uses yellow only for the hero wash and the CTA glow.
+4. **Labels replace sentences.** Typical patterns: "Host / Winner" (Immortals), "Athlete / Route / Time / PB Improvement" (On), "FIG 0.1" (Linear), "01 / 02 / 03" (Dia). A grey label at 11–13 px (usually mono) sits over a value at 16–24 px.
+5. **Motion is mostly ease-out, short on interaction and long on reveal.** Hovers run 100–200 ms. State changes run about 300 ms. Reveals run 600–1000 ms on expo or quint ease-out curves. Ambient loops run 1.1–2.8 s and marquees 56–78 s. None of the 20 sites put a bouncy spring on text.
+6. **Scroll stays native at the best product sites.** Linear, Raycast, Family and Luma use no smooth-scroll library. Lenis appears only on the editorial and campaign builds (Vercel Ship, Nothing, Dia, Rive, Last Tango, Perf Lab, United).
 
 ---
 
-## Part 3 — Design direction brief for xTrain
+## 1. Site-by-site teardown
 
-### 3.0 Verdict on the existing dark navy + turf green
-Keep the *instinct*, replace the *values*. Evidence: navy + saturated grass green is the palette of B2B soccer tooling (Hudl, Catapult) and betting/club-admin products; every consumer site in the research that reads "futuristic" sits on a blue-shifted near-black (`#07080a`–`#0d0d0d`), and the two most "AI × performance" accents are acid limes (WHOOP, ElevenLabs), not turf. So: push navy down to a blue-black stage, push green up to a volt lime used as a single voltage accent, and keep the *pitch* as a line/texture device rather than a fill color. Add one cool and one warm data hue so charts aren't monochrome green.
+### Linear (linear.app)
+- **Signature moment.** The hero copy resolves from blur, then the product window fades up underneath it, already doing something. A Linear Agent panel types "Thinking…" and a "Working…" badge carries a sweeping hairline shimmer.
+  - Measured on the subtitle: opacity 0→1 and `filter: blur(10px)→0` over about 1000 ms with CSS `ease`. Lines are staggered about 140 ms apart.
+  - Images load in with a mask wipe, `animation: .8s both load`, which animates `mask: linear-gradient(to right,#000 25%,#000000e6 50%,#0000) 150% 0/400% → 0 0/400%`.
+  - The "Working…" badge is an `::after` pseudo-element at hairline thickness. It uses `mask-composite: exclude` with `background-size:120px 72px` and runs `2s linear -.08s infinite` from `background-position 0` to `120px`. Label text gets its own sweep, also 2 s linear.
+  - The 5×5 SVG dot-matrix loaders use `steps(1)` opacity 0.3↔1 keyframes ("upDown" 2800 ms, "pong" 1600 ms). They are tiny LED-style indicators.
+- **Type.** Inter Variable for display: h1 64 px / 510 / −0.022em / line-height 1.0. Berkeley Mono for code and figure labels. Tracking tightens with size: −.022em display, −.012em subheads, −.003em body.
+- **Colour.** Page `#08090A`, text `#F7F8F8`, muted `#8A8F98` and `#62666D`, lines `rgba(255,255,255,.08)`. Accents (pink `#F79CE0`, peach `#F7BF8B`, periwinkle `#8FA6FF`) appear only as status colours inside the product UI. Testimonial cards are the only full-colour blocks (lavender and acid lime).
+- **Density.** Every section pairs a two-line title ("Intake / and integrations"), a 2–3 line paragraph and a large product crop that bleeds off the grid, plus a quiet "Features" link list. Isometric line drawings carry "FIG 0.1 / 0.2 / 0.3" captions, like a technical manual.
+- **Micro-interactions.**
+  - Link colour changes in 100 ms `ease`.
+  - Buttons transition background and filter over 160 ms with `cubic-bezier(.25,.46,.45,.94)`.
+  - Drawer and sheet motion uses `cubic-bezier(.32,.72,0,1)`, the iOS sheet curve, which appears 11 times in their CSS.
+  - The cursor is unchanged.
+- **Cheap risk.** At 1,508 words the page is long. The lower half becomes a feature index.
 
-### 3.1 Three candidate directions
+### Raycast (raycast.com)
+- **Signature moment.** A WebGL hero of diagonal red glass slats with a specular highlight that sweeps across them and a cyan rim light. It loops slowly behind centred copy on a 1200×967 webgl2 canvas at DPR 2. Further down, the product window (clipboard history, AI chat) is built in DOM.
+- **Type.** Inter 64 / 600, centred. Small UI text uses *positive* tracking: +.2 px appears 123 times and +.1 px 53 times. GeistMono and JetBrains Mono handle "Install via Homebrew" style meta.
+- **Colour.** Near-black, white at 100/60/40% opacity, and brand red only in the hero glass and small icons.
+- **Density.** A "feature wall" of keyboard tiles ("Fast. Think in milliseconds."). Each bold lead-in runs straight into grey continuation text.
+- **Micro-interactions.**
+  - The primary button behaves like a key-cap: `box-shadow: 0 0 0 2px rgba(0,0,0,.5), 0 0 14px rgba(255,255,255,.19), inset 0 -1px .4px rgba(0,0,0,.2), inset 0 1px .4px #fff`. Hover takes the background from `#E6E6E6` to `#FFF`.
+  - Their dominant curve is `cubic-bezier(.23,1,.32,1)` (easeOutQuint, 21 uses), followed by `(.165,.84,.44,1)` (easeOutQuart) and `(.16,1,.3,1)`.
+  - Carousel progress bars run 5 s linear. Caret blinks run 1.1 s linear.
+- **Cheap risk.** 1,759 words and very long. Several sections use "big card plus logo wall" filler.
 
-**Direction A — "Pitchside Lab" (evolve navy + green) — RECOMMENDED**
-- Mood: a sports-science lab at night, under floodlights: the data glows, the pitch is drawn in light.
-- Palette: canvas `#070B10`; surface-1 `#0D131B`; surface-2 `#131B25`; popover `#1A2430`; hairline `rgba(255,255,255,0.06)`; border-strong `#26303C`; text `#F2F5F7` / secondary `#AAB4BF` / tertiary `#6B7682`. Accent "Volt" `#B6FF3B` (hover `#A3EC2B`, press `#8FD426`, on-accent text `#06110B`, glow `0 0 24px rgba(182,255,59,0.22)`). Data pair: Sprint cyan `#38D6FF`, Load amber `#FFB347`. Semantic: good `#5CE08A`, warn `#FFB347`, danger `#FF4D5E`. Intensity ramp for the calendar strip: Rest = outline only; Light `#2F5A3A`; Moderate `#4E9C4B`; Hard `#8FE03A`; Max `#B6FF3B`; over-load flag amber.
-- Type (Google Fonts): Display **Geist** 600, tracking −0.03em at ≥48px (Vercel's font, now on Google Fonts; fallback `Inter, system-ui`); Body **Inter** 400/500 (variable with `opsz`; fallback `system-ui`); Data/labels **Geist Mono** 500 `tnum` (fallback `JetBrains Mono, ui-monospace`). Scores 72–96px/600 tnum; eyebrows 11px uppercase +0.14em in mono.
-- Motion language: Linear durations for UI (120/180/280ms), WHOOP/Oura "precise" 1200–1500ms fills for data, Strava energetic 400ms for milestones only; one WebGL set piece (pitch particle field) on marketing; drawn SVG pitch lines as the loading/transition motif; glow only on hover/featured.
-- Surface devices: 2–3% film-grain noise on canvas; faint pitch-marking SVG at 4–6% white behind heroes and empty states; frost hairline `rgba(214,235,253,0.12)` (Resend) on featured cards instead of shadows.
+### Family (family.co)
+- **Signature moment.** Phone screen recordings inside device frames: send, receive, swap, nft, watch, activity and others. Each clip is 2.7–6.0 s, `muted playsinline`, with no autoplay attribute; JS plays them when they scroll into view. The three smaller ones play once and the three large ones loop. "Details that matter" uses live micro-components on grey tiles, such as an "Analyzing Transaction" pill and a swap card.
+- **Type.** Custom "Family" face, h1 68 / 500 / −0.02em / 1.1. Eyebrows are small and blue ("Monitor In Real-Time").
+- **Motion.** Reveals use `transform 1000ms cubic-bezier(.19,1,.22,1)` (expo-out). Press feedback is `transform .22s cubic-bezier(.19,1,.22,1)`. Framer-motion springs sit at stiffness 200–280.
+- **Cheap risk.** 1,744 words. The tweet-card testimonial grid and the FAQ accordion are generic.
 
-**Direction B — "Broadcast Black"**
-- Mood: match-day broadcast graphics for your own training; loud, uppercase, kinetic.
-- Palette: canvas `#000000`; surfaces `#0A0A0A` / `#141414` / `#1F1F1F`; accent "Hi-Vis" `#F2FF3F` (referee-kit yellow; hover `#E0EE2A`; on-accent `#0A0A0A`); recovery bands green `#16EC06` / yellow `#FFDE00` / red `#FF0026` (WHOOP); cyan `#0093E7` for load; text `#FFFFFF` / `#B5B5B5`.
-- Type: Display **Big Shoulders Display** 800 uppercase, line-height 0.9 (fallback `Anton, Impact`); Body **Inter**; Data **IBM Plex Mono** 500 `tnum`.
-- Motion: hard cuts 150–240ms, SplitText line-mask reveals, number slams with overshoot, stat marquees, Peloton pulse dots, scale 1.02/0.98 CTAs.
-- Risk: it is one accent away from a WHOOP/Peloton clone, and heavy uppercase fatigues in a daily-use plan editor.
+### Cosmos (cosmos.so)
+- **Signature moment.** The hero is a field of small, rotated image tiles drifting at different depths. Far tiles are blurred and pale. It is drawn on a full-viewport canvas whose context was not reachable from the page (likely moved to an OffscreenCanvas in a worker). A brand list ("Bottega Veneta / LOEWE / Alexander Wang…") shows one name in black and the rest in grey, cycling.
+- **Type.** cosmosOracle (ABC Oracle) h1 72 / 700 / −0.04em / 1.0. basisMono for meta.
+- **Colour.** Pure greyscale. All colour comes from the images.
+- **Motion.** Transitions run `.4s cubic-bezier(0,0,.2,1)` on transform and `.7s` on filter and scale. Marquees run 56 s per loop. The search placeholder has a shimmer mask (1.3 s). Keyframes include `snake-border` and `dot-wave`.
+- **Density.** 230 words in total.
 
-**Direction C — "Editorial Turf" (light)**
-- Mood: a performance magazine that happens to coach you (Oura storefront × Cursor × Arc'teryx).
-- Palette: canvas `#F4F1EA`; surface `#FFFFFF`; ink `#14201A`; secondary `#5E6A63`; hairline `rgba(20,32,26,0.10)`; accent deep turf `#146B3A` (hover `#0F5530`) with Volt `#B6FF3B` only for the "AI is working" state; data cyan `#1E8FB5`, amber `#D98B1F`.
-- Type: Display **Inter** 500 tight with one phrase per headline flipped to **Instrument Serif** italic (fallback `Fraunces, Georgia`); Body Inter; Data **JetBrains Mono**.
-- Motion: slow and spacious, 320–480ms emphasized `cubic-bezier(0.2,0,0,1)`, progressive disclosure, photographic parallax, zero-radius imagery, square corners.
-- Risk: founders asked for "almost futuristic, very very animated"; light editorial reads calm and premium but not futuristic, and glow/WebGL set pieces read weaker on cream. Best kept as a light-mode theme or for long-form editorial pages.
+### Arc / Dia (arc.net, diabrowser.com)
+- **Signature moment (Dia).**
+  - **Sunrise dock.** A huge ellipse is anchored to the bottom of the viewport: `width: max(141vw, …)`, `aspect-ratio: 2034/978`, `border-radius: 50%`, background `#FBFAF6`. Behind it sits a blurred glow blob, `#FFE48C` at `blur(40px)`. The ellipse's `scaleY` is bound to a scroll-driven CSS variable `--dock-arc`, so the curve flattens as you scroll. The "Download Dia for free" pill rides on the horizon throughout the page.
+  - **Sticky step list.** The left column is `sticky; top: 20vh`. Steps are numbered "01/02/03" in ABC Favorit Mono 11 px, with titles in Exposure VAR (a variable serif) at 24 px. Inactive titles sit at `rgba(0,0,0,.45)` and the active one at `.85`, transitioning over `.3s cubic-bezier(.4,0,.2,1)`. The right column swaps the product view.
+- **Type.** Exposure VAR serif for display, ABC Oracle for text, ABC Favorit Mono for labels. Arc uses Marlin Soft plus EB Garamond.
+- **Colour.** Warm paper `#FBFAF6`, ink at 85% opacity, a yellow wash (`#FFDC5C`, `#FFE48C`), and the accent only in the hero and the glow.
+- **Motion.** `(.77,0,.175,1)` (easeInOutQuart) and `(.87,0,.13,1)` (easeInOutExpo) for large moves. Lenis smooth scroll is on.
 
-**Recommendation: Direction A.** It satisfies the brief (futuristic, heavily animated) because dark blue-black is the only canvas where glow, rings, particles and WebGL read as premium (Linear, Raycast, Runway, WHOOP, Peloton all sit there); it preserves the team's navy/green equity and the soccer semantics (pitch, floodlight, kit volt) while fixing the "corporate dashboard" read; it leaves room to differentiate from WHOOP (Geist + mono + cyan/amber data pair + pitch-line motif instead of Inter-heavy uppercase lime); and it degrades well to a light theme using Direction C's values if ever needed.
+### Rive (rive.app)
+- **Signature moment.** The left column runs a vertical stack of category video cards (Product UI, Game UI, Mobile apps, Film+TV) as a slow vertical marquee. A CLI install snippet card sits beside the headline.
+- **Type.** Orbitron 900 caps, Tomorrow, PragmataPro.
+- **Cheap risk.** Orbitron and Tomorrow read as an esports or "AI-gamer" template. Everything is uppercase and the testimonial wall has 12 cards. **Avoid this type direction.**
 
-### 3.2 Fifteen prioritized animations / interactions for xTrain
+### Luma (lumalabs.ai)
+- **Signature moment.** A full-bleed, fast-cut video montage hero dimmed to about 50%, with "Brand Exploration • Generating" pills overlaid. A prompt box docks at the bottom edge of the hero ("What's due this week?") and its placeholder types and deletes a rotating list of real prompts. On scroll the box rises to the top and the page turns white.
+- **Type.** Graphik 52 / 500 / −0.04em, with PP Editorial serif in places.
+- **Motion.** `(.22,.8,.28,1)`, `(.19,1,.22,1)`, 150 ms micro transitions.
+- **Density.** Section changes are marked by a full switch between a white and a black page.
 
-| # | Interaction | Page | Source reference | Implementation | Spec notes |
-|---|---|---|---|---|---|
-| 1 | **Plan-generation sequence** ("Reading your profile → Weighting your weak foot → Balancing load across 4 days → Writing week 1"): full-screen stepper, each step a mono line that checks off with a Cursor-style step color; behind it a pitch-line SVG draws itself and a determinate bar fills; ends on a count-up ("4 sessions · 2h 40m · 3 focus skills") | Onboarding → Plan | Perplexity process copy; Runna "Building your plan" bar; Cursor timeline colors; Strava 1200ms route draw | GSAP timeline + DrawSVGPlugin (free since Webflow acquisition) + Motion for React (`motion/react`) for step list; TextPlugin for count-up | Steps are real backend phases streamed via SSE, not fake timers; min 1.8s, max = real time; reduced-motion = static list that checks off |
-| 2 | **Plan reveal with "because you said" chips**: skeleton grid matching the week layout → cards stagger in (40ms) → intensity strip on each card fills → 3–5 chips typewriter in ("because you said: 3 days/week", "weak left foot", "no partner") | Plan (first view) | AI skeleton→stream→done pattern; Future's persona card; Fitbod "why this today" | Motion `AnimatePresence` + `layoutId` from the generation screen; CSS shimmer skeleton; GSAP SplitText (chars) for chips | Skeleton line widths varied; shimmer slow (1.6s) and low contrast |
-| 3 | **Skill radar** (passing / shooting / dribbling / first touch / fitness / weak foot) grows from center with per-axis stagger, values count up, hover an axis to see the drills feeding it | Dashboard, Progress | Hudl Statsbomb radars; WHOOP/Oura ring timing | SVG polygon + GSAP (attr tween on points) or Motion `animate`; D3 scales | 1200ms `cubic-bezier(0.65,0,0.35,1)`; axis labels in Geist Mono 11px uppercase; `role="img"` + text table fallback |
-| 4 | **Readiness ring + load arc on Today card** with threshold color bands and tnum count-up | Dashboard | WHOOP recovery ring (1500ms) / strain arc; Oura score ring | SVG `stroke-dashoffset` via WAAPI or CSS `@property` | `role="meter"` + `aria-valuenow`; bands: Volt / amber / danger |
-| 5 | **Marketing hero: floodlit pitch particle field** — an instanced point cloud resolves into pitch markings, then on scroll morphs into a skill radar / week grid; headline split-line mask reveal over it | Landing | Lusion/Active Theory set-piece logic; Goals (14islands) "smooth motion of the essence"; Serve Robotics fragmented headline | React Three Fiber + drei, GSAP ScrollTrigger scrub for morph; SplitText lines for headline | ≤1.5 MB total; poster image fallback; pause offscreen; cap DPR 1.5 |
-| 6 | **Pinned "How xTrain builds your week"**: left copy pinned, right device frame swaps profile → generation → plan as you scroll | Landing | Linear/Vercel product-as-content; Oura/Instrument progressive disclosure; The Performance Lab pinned scroll | GSAP ScrollTrigger `pin` + Flip between three states | Three states max; mobile = stacked with autoplay video |
-| 7 | **Calendar drag-to-reorder / move across weeks** with spring settle, ghost placeholder, live intensity recompute, and a "Swap session" sheet on long-press | Plan editor | Runna V3 move-between-weeks; TrainingPeaks drag-drop + top compliance band; Zing reorder gestures | dnd-kit for logic + Motion layout animations (spring stiffness 500, damping 40) | Intensity shown as a 3px top strip per card (TrainingPeaks lesson), never a full-card fill |
-| 8 | **Regenerate week**: current cards flip out (rotateY 90°, 180ms, stagger 30ms) → matched skeletons → new cards stream in; changed sessions get a Volt hairline + one-line "what changed and why"; AI proposes, user confirms | Plan editor | Athletica "AI does not automatically modify"; Fitbod learns from edits; skeleton→stream pattern | Motion `AnimatePresence` + `layoutId`; diff computed server-side | Undo toast 280ms slide (Linear toast spec) |
-| 9 | **"Not feeling 100%" load dial**: radial slider recolors the week live (intensity ramp shifts down) for N days | Plan editor | Runna "Not Feeling 100%" 3–14 days; Garmin In Focus factors | Motion drag + CSS custom properties driving the intensity ramp | Shows the factors it will change (volume, intensity, rest) as Garmin does |
-| 10 | **Coach insight stream**: AI messages stream token-by-token into "insight cards" with a metric chip ("Left-foot passes +18% this week") and a one-tap "Add drill" | Dashboard, Progress, Chat | Strava Athlete Intelligence conversational insights; WHOOP Coach inline; Perplexity citations-as-type | SSE streaming + Motion for card entrance; no typewriter on body text (stream real tokens) | Typing indicator = 3-dot pulse 1200ms (Peloton live-dot cadence) |
-| 11 | **Library hover-video + filter reflow**: card shows poster, hover/focus scrubs a muted 3s loop; filter chips invert on active; cards reflow with layout animation | Drill library | Ladder video-for-every-movement; Peloton class card; Nike filter chip invert | `<video muted playsinline preload="metadata">` with IntersectionObserver; Motion `layout` on grid | Difficulty 1–5 as segmented bar; equipment as mono icon chips |
-| 12 | **Drill detail 3D scene**: the existing passing/shooting/dribbling 3D visualizations embedded with scroll-scrubbed camera and numbered step markers | Drill page | adidas CHILE20 (Active Theory) product-as-3D; Hudl 3D View | R3F + GSAP ScrollTrigger scrub on camera; drei `ScrollControls` alternative | This is xTrain's unique asset; keep it the only heavy 3D in-app |
-| 13 | **Today card "live" state**: Volt pulse dot when a session is due, magnetic primary CTA (±6px cursor pull), glow halo on hover | Dashboard | Peloton live indicator; WHOOP lime glow; Raycast opacity hovers | CSS keyframes + small pointer-move handler (or GSAP quickTo) | Magnetic effect desktop-only; disabled under reduced motion |
-| 14 | **Streak + weekly progress**: segmented bar fills with 60ms stagger; milestone (first full week, PR) = scale 0.8→1 + glow 400ms energetic ease; no confetti | Dashboard, Progress | Strava PR celebration + kudos burst; Fitbod/Runna confetti noted as generic | CSS/WAAPI | `cubic-bezier(0.34,1.56,0.64,1)` used here only |
-| 15 | **Page + shared-element transitions**: drill card → drill page morphs the thumbnail; route changes crossfade 200ms | All | Linear 200ms opacity page transition; The Performance Lab page transitions | View Transitions API (`@view-transition`, `view-transition-name`) with Motion `layoutId` fallback | Never exceed 280ms for navigation |
+### Vercel Ship '26 (vercel.com/ship)
+- **Signature moment.** Sixteen pixel-art mascots stand in a 1-3-5-6 pyramid and change pose in sync: hop, blink, turn. The headline "Ship what's next" is set in **GeistPixelCircle**, a dot-matrix font made of circles, at 96 px / 500 / −0.06em. A countdown ticks live ("4D.16H.26M.28S"). The ticket button has **stepped pixel corners**, cut with a `clip-path` polygon.
+- **Colour.** Pure greyscale: `#EDEDED` on `#000`, with black-and-white photography.
+- **Labels.** Geist Mono in uppercase at 12–13 px.
+- **Motion.** `(.32,.72,0,1)` and `(.4,0,.2,1)`. Marquees run 70 s. Lenis is on.
 
-Optional add-ons once the fifteen ship: stat marquee / number tickers on marketing (Linear/Vercel), tap-and-hold "commit to the plan" pledge (Zing), Rive state-machine coach avatar for idle/thinking/celebrating (prefer Rive over Lottie for interactive states; Lottie for icon-level micro-states).
+### Nothing (us.nothing.tech)
+- **Signature moment.**
+  - The whole page sits on a faint dot-grid background (dots on `#F2F2F2`).
+  - Nav and footer labels use **Ndot**, the brand's dot-matrix face.
+  - Headlines use NType82, a serif, at 48 px.
+  - Micro labels use LatteraMono in caps.
+  - Product naming follows a parenthesis convention: "HEADPHONE (1) PRO".
+- **Colour.** Greyscale with product colour (pink, yellow) on grey plinths.
 
-### 3.3 Patterns to avoid (with evidence from the research)
+### Teenage Engineering (teenage.engineering)
+- **Signature moment.** Black-and-white photography plus a nav row in which each item is a pictogram, a word and three tiny sub-labels. 153 words. Custom te-20 and te-40 type.
+- **Lesson.** The confidence comes from almost nothing being on the page.
 
-1. **Purple→pink "AI" gradients and gradient surfaces.** None of the premium references use them: Runway "no interface gradients," Resend "no 3D effects, particles, or gradients in core system," Raycast's only gradient is a keycap, Linear keeps indigo accent-only. Oura's capture explicitly lists "neon-green heart-rate gradient" as a rejected cliché.
-2. **Glassmorphism everywhere.** Linear uses backdrop blur on exactly one element (sticky header); Raycast simulates glass with shadow layering, not blur; Oura rejects "dashboard mockup behind glass." Use frost hairlines (Resend `rgba(214,235,253,0.19)`) instead.
-3. **Pure `#000` with grey cards and heavy drop shadows.** Raycast: "pure black breaks aesthetic"; Linear and ElevenLabs studio cards use tonal layering; Runway has zero shadows. Shadows belong to popovers/modals only.
-4. **Abstract 3D blobs, orbs, "neural network" node graphics.** Winning sport/AI sites tie their one 3D idea to a real object: Lacoste bricks, Serve's robot, Raycast keycaps, adidas garments, Nike zoetrope. For xTrain that means ball, pitch markings, boot/sensor, cones.
-5. **Spinner-only or fake-timer "generating" screens.** AI UX guidance: skeleton → stream → done; Perplexity's process-aware copy; Runna's determinate bar. Steps should map to real pipeline phases.
-6. **Confetti and generic celebration.** Fitbod's confetti is called "generic" in its teardown; Runna fires it on subscription. Strava's kudos burst and PR glow are the model: small, physical, brand-colored.
-7. **Multiple accent colors.** Strava, Peloton, WHOOP, ElevenLabs, Perplexity each run one voltage color; Linear's indigo is accent-only. Keep Volt as the only accent; cyan/amber are *data* hues, never CTA colors.
-8. **Full-card intensity fills.** TrainingPeaks had to retreat from black-on-red cards for accessibility; the fix was a color band at the top with a toned-down body.
-9. **Bouncy, transform-heavy hover states and long UI durations.** Linear: card hover changes border/bg only, no transform; UI durations 80–280ms across Linear, Nike, Garmin, Perplexity. Reserve overshoot easing for milestones.
-10. **Rounded-everything.** WHOOP's "8px radius parity" and the zero-radius geometry of Nike, Garmin, Arc'teryx are what make sport UI read equipment-grade; pills only for chips, avatars and one CTA style.
-11. **Dense "everything dashboard."** Oura's redesign is organised around "one big thing"; Apple Fitness+ cut the in-workout screen to three items after the three-ring overlay was found distracting; Fitbod's in-workout screen is criticised as "dense." Today = one session, one ring, one insight.
-12. **WHOOP cosplay.** Inter-heavy uppercase + lime on black is now WHOOP's silhouette. Direction A deliberately swaps in Geist + a mono data face, a cyan/amber pair and pitch-line geometry to stay distinct.
-13. **Transformation galleries / before-after bodies** (Freeletics) and generic lifestyle stock of "people high-fiving" — dated for a youth soccer product; use drill footage and data overlays (Hudl floating video, Runway full-bleed).
-14. **Ignoring `prefers-reduced-motion`.** Every token set in the research documents it (opacity-only, instant fills, frozen carousels). Ship it from day one or the "very animated" brief turns into an accessibility problem.
-15. **Navy `#0B1F3A` + grass green `#2E8B57` as fills.** Reads as club-admin / B2B analytics (Hudl, Catapult) or betting; consumer-premium sits on blue-black with a volt accent.
+### On, LightSpray launch page (on.com/en-us/lightspray)
+- **Signature moment.** Editorial, asymmetric image layout on white. Each photo carries a spec caption instead of copy ("Athlete: Joe Klecker / Route: Boston 2026 / Time: 2:05:56 / PB Improvement: 4:41"). A sticky spec panel uses label-over-value rows ("Athlete — Hellen Obiri", "Time — 1:21:42"). Quotes are set in Suisse Works serif.
+- **Type.** On (custom) 49.6 / 700 / −0.01em. On Semi Mono for meta.
 
-### 3.4 Implementation stack notes
-- **GSAP 3.13+** is free for commercial use including ScrollTrigger, SplitText (rewritten, 50% smaller, screen-reader aware), Flip, DrawSVG, MorphSVG, MotionPath (Webflow acquisition). Use it for scroll choreography, SVG drawing and text splitting.
-- **Motion** (formerly Framer Motion; npm `motion`, import from `motion/react`) for React layout/presence animations, drag and springs in the app shell.
-- **React Three Fiber + drei** for the two 3D moments (hero particle pitch, drill scenes). Keep everything else DOM/SVG.
-- **View Transitions API** for route and shared-element transitions, Motion `layoutId` as fallback.
-- **Rive** for the coach avatar state machine; **Lottie** only for small icon states.
-- Tokens: adopt the shared easing set found across references — standard `cubic-bezier(0.4,0,0.2,1)`, emphasized `cubic-bezier(0.2,0,0,1)`, precise `cubic-bezier(0.65,0,0.35,1)` for data, energetic `cubic-bezier(0.34,1.56,0.64,1)` for milestones; durations 120 / 180 / 280 / 1200–1500ms.
+### WHOOP (whoop.com)
+- **Signature moment.** Data overlaid on athletic photography: a translucent dark-green disc of particle dots reading "45.8 WHOOP AGE" floats next to a trail runner. The carousel cards carry ring nodes ("88%, 65%").
+- **Type.** Proxima Nova.
+- **Motion.** GSAP with ScrollTrigger and framer-motion. `(.16,1,.3,1)` and expo/power4. A sticky CTA appears after 500 ms.
+- **Cheap risk.** "JOIN NOW" pills float over content, plus a cookie bar, a promo strip and repeated CTAs. That is conversion clutter.
+
+### McLaren Racing and Red Bull Racing
+- **McLaren.** Papaya `#FF8000` for arrows, progress bars and the Racing Club button. Condensed uppercase news headlines.
+- **Red Bull.** "RB22" set huge, with the car layered *in front of* the numerals so the type gets depth. Driver cards tilt in 3D.
+- **Cheap risk (both).** News-portal density, carousels with arrow buttons, and the accent spread across too many elements.
+
+### Williams Grand Prix Technologies (williamsgptech.com)
+- **Signature moment.** **Scramble-decode eyebrow labels.** GSAP `ScrambleTextPlugin` is confirmed on `window` alongside SplitText and 16 ScrollTriggers, on GSAP 3.15. Sampling "SECTORS WE WORK IN" every 70 ms showed random uppercase letters resolving left to right in about 800 ms. The labels are 13.5 px uppercase Williams Grotesk with a 6 px blue square bullet.
+- **Paragraphs.** Two-tone: the lead clause is white and the rest is 60% white.
+- **Stats.** "05 / Decades of motorsport engineering pedigree" at 88 px / −0.03em.
+- **Colour.** Navy `#000A20`, white, and a single electric blue `#0042FF` used only on the primary CTA tile and the label squares.
+- **Motion.** `power1.out` at 0.3 s for small fades. `cubic-bezier(.625,.05,0,1)` for strong pulls. CSS `fade-up` and `blur-animation` at 600 ms.
+
+### The Immortals (theimmortals.world). Awwwards HM, Aug 2026
+- **Signature moment.** The page is a WebGL scene on one full-viewport webgl2 canvas, built with OGL. Its scroll is virtual, so the document is only 900 px tall.
+  - The intro is a year counter: "19 — The story begins — 30", then the year rolls forward to 2026.
+  - Wheel input rotates a **curved, cylinder-mapped image carousel** that wraps around a 3D World Cup trophy. The centre image is flat and the side images bend away and fade.
+  - Each stop shows "Host / Winner" label pairs on the left, the year on the right and a 2–4 word chapter title at the bottom ("The Hand and the Crown", "Against All Odds").
+- **Type.** Bricolage Grotesque only. The year is 75 px / 400 / −0.08em (−6 px).
+- **Colour.** `#EFEFEF` and `#121212`. All colour comes from the photographs.
+- **Words.** 237.
+
+### The Last Tango (thelasttango.com). Awwwards HM, Sep 2026
+- **Signature moment.** Messi rebuilt as a **three.js point cloud**: thousands of points sampled from a photo, so the figure crumbles into particles at the edges. A gold circular "ENTER" button. A custom cursor (a dark disc with orbiting gold stars) follows the pointer.
+- **Type.** Cormorant Garamond in caps ("THE / LAST / TANGO", staggered across the figure), DM Sans for text, Darker Grotesque 900 for buttons.
+- **Colour.** Midnight `#030C1C` and gold `#D2B55D`.
+- **Words.** 45.
+
+### United in Football (unitedinfootball.tilljanek.com). Awwwards No-code Honors
+- **Signature moment.** Two moves.
+  - **Text over text.** A serif paragraph about the World Cup is overprinted by a heavy yellow display line, "ONE GAME. ONE WORLD." (Boldonse in `#F4C518`, on cream `#EFEAE0`).
+  - **Scatter to centre.** On black, about 12 tilted snapshots converge from the edges onto a central photo, which then scales to full-bleed behind "FOOTBALL NEEDS NO TRANSLATION." (Instrument Serif, condensed caps).
+- **Build.** Framer scroll transforms with Lenis.
+
+### Lacoste Ace Breaker. Awwwards Site of the Day
+- **Signature moment.** The preloader is a glowing tennis ball above a filling yellow progress bar. The hero pairs a "LACOSTE" serif with "ACE BREAKER" in **Mona Sans** at about 140 px.
+- **Colour.** Bottle green `#082415`, cream `#F3F2E1`, ball yellow `#FCD757`.
+- **Product.** A browser game in three.js.
+
+### The Performance Lab (theperformancelab.ca). Awwwards HM
+- **Signature moment.** Giant uppercase display type (205 px / −0.04em) cropped by the viewport. Cards carry crosshair "+" registration marks at their corners. A single orange-red `#FF350D` is used for CTAs, the marks and a 4-arc target glyph.
+- **Cheap risk.** At the time of capture a modal, a cookie bar and a floating CTA all stacked on top of each other. Cropping words ("UNLOC…") stops feeling clever when it happens in every section.
 
 ---
 
-## Sources
+## 2. Cross-site numbers
 
-Sports & fitness
-- WHOOP tokens: https://www.webdesignhot.com/design.md/whoop/ · Basic Agency case study: https://basicagency.com/case-studies/whoop · WHOOP Coach: https://www.whoop.com/eu/en/thelocker/whoop-unveils-the-new-whoop-coach-powered-by-openai · https://www.wareable.com/wearable-tech/whoop-launches-gpt-4-ai-coach
-- Oura tokens: https://www.webdesignhot.com/design.md/oura/ · https://www.shadcn.io/design/oura · Instrument case study: https://instrument.com/work/oura-smart-ring · Brand guidelines: https://static.ouraring.com/pdfs/Oura_BrandGuidelines_v1.pdf · New app: https://ouraring.com/blog/new-app-design/ · https://www.droid-life.com/2025/11/13/oura-ring-app-gets-big-facelift-ai-gets-more-access-to-your-metrics/
-- Strava tokens: https://www.webdesignhot.com/design.md/strava/ · Athlete Intelligence: https://t3.com/active/strava-s-new-ai-powered-feature-turns-your-workout-data-into-instant-insights · https://www.advnture.com/news/strava-launches-athlete-intelligence
-- Peloton tokens: https://www.webdesignhot.com/design.md/peloton/ · https://www.shadcn.io/design/peloton
-- Fitbod: https://fitbod.me/ · https://screensdesign.com/showcase/fitbod-gym-fitness-planner · https://www.techradar.com/health-fitness/fitbod-app-review · https://www.rapidnative.com/blogs/ai-fitness-apps
-- Freeletics: https://www.freeletics.com/en/ · https://insider.fitt.co/press-release/freeletics-unveils-a-new-era-in-digital-fitness-with-the-launch-of-coach/
-- Runna: https://www.runna.com/ · https://screensdesign.com/apps/runna-running-training-plans/ · V3: https://runningindustryalliance.com/?p=20508 · 2026 briefings: https://endurance.biz/2026/industry-news/runna-updates-beginner-and-return-to-running-training-plans/
-- Tonal: https://www.tonal.com/
-- Athletica: https://athletica.ai/ · https://news.athletica.ai/posts/the-new-athletica-training-experience-is-live
-- Future: https://www.future.co/ · Ladder: https://www.joinladder.com/ · https://www.garagegymreviews.com/ladder-app-review
-- Zwift: https://www.zwift.com/ · https://bikebiz.com/zwift-unveils-re-brand-with-bold-new-designs/ · https://zwiftinsider.com/sneak-peek-homescreen/
-- Hudl: https://www.hudl.com/ · https://www.hudl.com/products/statsbomb/platform · Catapult: https://www.catapult.com/ · Playermaker: https://playermaker.com/
-- Nike tokens: https://www.webdesignhot.com/design.md/nike/ · Garmin tokens: https://www.webdesignhot.com/design.md/garmin/ · Garmin Connect redesign: https://androidauthority.com/garmin-connect-redesign-3364392 · https://www.techradar.com/health-fitness/fitness-trackers/your-garmin-connect-app-is-about-to-change-forever-according-to-recent-rumors
-- Apple Fitness+: https://appleinsider.com/articles/23/01/26/apple-fitness-review-two-years-later-barely-treads-water · https://support.apple.com/guide/fitness-plus/apdf8a229f34
-- Arc'teryx: https://www.shadcn.io/design/arcteryx · https://appliedartsmag.com/winners/design/arc-teryx-spring-run-w236/?year=2024
-- Zing AI: https://screensdesign.com/showcase/zing-ai-home-gym-workouts · https://www.techradar.com/health-fitness/zing-coach-is-an-app-that-reveals-the-true-power-of-ai-training
-- TrainingPeaks: https://trainingpeaks.com/learn/articles/trainingpeaks-calendar-refresh · https://help.trainingpeaks.com/hc/en-us/articles/204072164-How-do-I-move-a-workout
-- Soccer apps: Techne https://apps.apple.com/app/id1298569303 · aiScout https://mwm.ai/apps/aiscout/1508291341 · Juggernaut AI https://apppricinglab.com/app/apple/1515756471
-- Sport motion sites: Goals (14islands) https://www.sanity.io/projects/goals · Lacoste Ace Breaker https://www.awwwards.com/sites/lacoste-ace-breaker · The Performance Lab https://www.awwwards.com/sites/the-performance-lab · Awwwards sports list https://www.awwwards.com/websites/sports/ · adidas CHILE20 (Active Theory) https://www.webbyawards.com/crafted-with-code/adidas-chile20/ · Nike Free WebGL https://www.dexigner.com/news/27397
+| Site | Words | Display face | h1 size / weight / tracking | Accent use |
+|---|---|---|---|---|
+| Last Tango | 45 | Cormorant Garamond | spaced caps, not a DOM h1 | gold, ENTER button only |
+| Cosmos | 230 | ABC Oracle | 72 / 700 / −0.04em | none (images) |
+| Immortals | 237 | Bricolage Grotesque | 75 / 400 / −0.08em (years) | none (images) |
+| Vercel Ship | 352 | GeistPixelCircle | 96 / 500 / −0.06em | none (greyscale) |
+| United | 411 | Instrument Serif + Boldonse | 64 / 400 / −0.01em | yellow, one overprint line |
+| Luma | 521 | Graphik | 52 / 500 / −0.04em | none |
+| Dia | 588 | Exposure VAR | h1 38.8 / 500 / −0.04em (big "Dia" is a wordmark) | yellow hero wash + CTA glow |
+| Williams | 656 | Williams Grotesk | 48 / 400; stat 88 / −0.03em | blue: CTA + label squares |
+| Linear | 1508 | Inter Variable | 64 / 510 / −0.022em | none in chrome |
+| Family | 1744 | Family | 68 / 500 / −0.02em | blue eyebrows |
+| Raycast | 1759 | Inter | 64 / 600 / 0 | red, hero only |
 
-Futuristic AI product sites
-- Linear: https://www.webdesignhot.com/design.md/linear/ · Vercel: https://design.hagicode.com/designs/vercel/ · Raycast: https://design.hagicode.com/designs/raycast/DESIGN.md · Cursor: https://design.hagicode.com/designs/cursor/ · Resend: https://design.hagicode.com/designs/resend/ · Perplexity: https://www.webdesignhot.com/design.md/perplexity/ · ElevenLabs: https://www.webdesignhot.com/design.md/elevenlabs/ · https://www.skills.sh/deepparser/skills/design-elevenlabs · Runway: https://design.hagicode.com/designs/runwayml/DESIGN.md
-- Cleo AI (OddCommon): https://www.awwwards.com/inspiration/homepage-entry-cleo-2 · Serve Robotics: https://www.serverobotics.com/ · Sidewave/Serve SOTD listing: https://www.awwwards.com/inspiration_search/sites_of_the_day/ · Lusion: https://lusion.co/ · https://awwwards.com/case-study-for-lusion-by-lusion-winner-of-site-of-the-month-may.html · Active Theory "Craft Matters": https://lbbonline.com/news/Craft-Matters-by-Active-Theory
+**Easing curves that recur in the CSS:**
 
-Patterns & tooling
-- AI loading states: https://vp0.com/blogs/ai-fetching-data-skeleton-loader-ui · https://skillselion.com/skills/thedaviddias/ux-patterns-for-developers/ai-loading-states
-- GSAP free: https://webflow.com/updates/gsap-becomes-free · https://npmjs.com/package/gsap
-- Motion (ex-Framer Motion): https://motion.dev/docs/migration · https://motion.dev/blog/introducing-motion
+| Curve | Name | Where it appears |
+|---|---|---|
+| `cubic-bezier(.23,1,.32,1)` | easeOutQuint | Raycast 21×, Dia |
+| `cubic-bezier(.19,1,.22,1)` | easeOutExpo | Family 1000 ms reveals, Luma, Linear |
+| `cubic-bezier(.165,.84,.44,1)` | easeOutQuart | Raycast 10×, Williams 5×, Linear filter hovers |
+| `cubic-bezier(.16,1,.3,1)` / `(.22,1,.36,1)` | expo/quint variants | Raycast 9×, WHOOP, Cosmos, Dia |
+| `cubic-bezier(.32,.72,0,1)` | iOS sheet | Linear 11×, Vercel 6× (panels, drawers) |
+| `cubic-bezier(.4,0,.2,1)` | Material/Tailwind standard | Dia 16×, WHOOP 17×, Vercel, Luma (colour and opacity only) |
+| `cubic-bezier(.77,0,.175,1)` / `(.87,0,.13,1)` | in-out quart / expo | Dia (large positional moves) |
+
+**Durations seen:**
+
+| Motion | Duration | Examples |
+|---|---|---|
+| Hover / colour | 100–200 ms | Linear .10/.12/.16 s, Vercel .15 s, Dia .2 s |
+| State change | 300 ms | Dia steps, Raycast |
+| Small reveal | 600 ms | Williams |
+| Large reveal | 800–1000 ms | Linear mask .8 s and blur-in about 1 s; Family transform 1 s |
+| Ambient loops | 1.1–2.8 s linear | Raycast blink 1.1 s; Linear dots 1.6 / 2.8 s; Linear shimmer 2 s |
+| Autoplay progress | 5 s linear | Raycast, WHOOP |
+| Marquees | 56–78 s per loop | Cosmos 56 s, Vercel 70 s, Arc 78 s |
+
+**Libraries detected:**
+- GSAP + ScrollTrigger: Williams (3.15, plus SplitText and ScrambleText), WHOOP.
+- framer-motion: Family, Cosmos, Luma, Dia, Arc, Vercel, Rive, Williams.
+- Lenis: Vercel Ship, Nothing, Dia, Rive, Last Tango, Perf Lab, United.
+- WebGL: Raycast (hero), Immortals (OGL), Last Tango and Lacoste (three.js), Cosmos (canvas).
+- **No site used CSS scroll-driven animations (`animation-timeline`).**
+
+---
+
+## 3. Fifteen techniques to emulate, translated for xTrain
+
+Each technique gives the source, how to build it, why it reads as premium, and the soccer translation.
+
+### 1. Blur-to-sharp staggered hero entrance (Linear)
+- **Build.** Split the headline into lines with GSAP SplitText (`type:"lines", mask:"lines"`), or wrap each line by hand.
+  ```js
+  gsap.from(lines, { opacity:0, filter:"blur(10px)", y:12, duration:1.0, ease:"expo.out", stagger:0.12 })
+  ```
+  Bring the subhead in at +0.25 s and the product visual at +0.45 s using Linear's mask wipe: `mask: linear-gradient(90deg,#000 25%,#000e 50%,#0000) 150% 0/400%` animated to `0 0/400%` over .8 s.
+- **Why it reads premium.** It feels like a camera finding focus, not a slide-in. Nothing bounces, and it finishes before you have read the second line.
+- **xTrain.** Headline lines blur in, then the pitch board below is revealed with a left-to-right wipe, like a groundskeeper's line marker.
+
+### 2. The product is the hero visual, built in DOM and cropped by the fold (Linear, Raycast, Dia)
+- **Build.** An HTML/SVG replica of the real session screen, not a PNG.
+  - A live `mm:ss` timer ticks.
+  - The current drill ("Wall passes · 4 × 45 s · weak foot") shows a rep counter that increments.
+  - The bottom 30% is cropped by the viewport, and a 1 px `rgba(255,255,255,.08)` frame plus a soft top highlight make it look like glass.
+- **Why it reads premium.** It proves the product exists and it's crisp at any DPR.
+- **xTrain.** The session screen *is* the hero image. Players see exactly what they will use.
+
+### 3. Pitch diagram that assembles as you scroll (Linear "FIG" drawings, Raycast iso objects)
+- **Build.** Pin a 100vh section for 200vh with ScrollTrigger (`scrub: 0.6`).
+  - Cones drop in: `from {scale:0, y:-12}`, stagger 0.06, `back.out(1.4)` on the cones only, never on text.
+  - Ball paths draw with DrawSVG, or with `stroke-dashoffset` from `length` to 0.
+  - A player dot travels the path with MotionPathPlugin.
+  - Caption it like a manual: "FIG. 02 — WALL PASS, 2 CONES, 5 m".
+- **Why it reads premium.** It works like a technical drawing. The illustration explains the drill, so the copy can stay short.
+- **xTrain.** Each drill type gets its own figure. Swapping the "kit" chips (ball, wall, cone) redraws the diagram.
+
+### 4. Typed prompt that the AI answers (Luma's docked prompt box)
+- **Build.** A pill input docked to the bottom of the hero. It types at about 45 ms per character, holds 1.6 s and deletes at about 20 ms per character, cycling 3–4 real inputs. On "submit", a plan card builds underneath: three rows stagger in at 80 ms each, `expo.out`, .6 s.
+- **Why it reads premium.** It shows the AI's input and output with no explainer copy.
+- **xTrain.** Kit chips appear one by one: `ball` `wall` `2 cones` `20 min` `weak: left foot`, followed by "Here's today's session".
+
+### 5. "Building…" hairline shimmer border (Linear agent badge)
+- **Build.**
+  - On the element's `::after`, set `inset:-1px; padding:1px; border-radius:inherit`.
+  - Mask it into a ring with `mask: linear-gradient(#000,#000) content-box, linear-gradient(#000,#000); mask-composite: exclude`.
+  - Give it `background: linear-gradient(90deg, transparent, accent 50%, transparent) 0/120px 100% repeat-x` and animate `background-position` from 0 to 120 px, `2s linear infinite`.
+  - Run a matching text sweep on the label.
+- **Why it reads premium.** It's a quiet "AI is working" signal and avoids sparkle emoji or gradient blobs.
+- **xTrain.** The plan card's border shimmers for about 1.2 s while the session is generated, then settles to a solid hairline.
+
+### 6. LED dot-matrix numerals and loaders (Nothing Ndot, Vercel GeistPixelCircle, Linear 5×5 dots)
+- **Build.**
+  - Set timers, reps and scores in **Doto**, a variable dot-matrix font on Google Fonts. Use it for numbers only.
+  - For a loader, draw a 5×5 SVG grid of `<circle r=1.5>` and run `steps(1)` opacity keyframes between 0.3 and 1. Copy Linear's 1.6 s "pong" pattern, but draw a ball bouncing.
+- **Why it reads premium.** It's a brand texture that also does a job.
+- **xTrain.** The soccer-native reference is the **fourth official's LED substitution board**. Use it for "+3:00", "REPS 12/20" and the countdown. An optional fun beat, after Vercel Ship's mascot pyramid: a 1-4-3-3 formation of tiny dot-matrix players juggling in sync.
+
+### 7. Sticky step list with dimmed inactive steps (Dia; Cosmos brand list)
+- **Build.**
+  - Two columns. The left column is `position: sticky; top: 20vh`.
+  - Each step is a mono number (11 px), a serif or display title (24 px) and one line of body text.
+  - Inactive steps sit at `opacity: .45`, the active one at `.85`, transitioning over `.3s cubic-bezier(.4,0,.2,1)`.
+  - A ScrollTrigger per step toggles the active state. The right column crossfades, or uses Flip between product states.
+- **Why it reads premium.** Only one idea is on screen at a time, with no carousel arrows.
+- **xTrain.** The four steps: "01 Tell it your kit / 02 Get today's session / 03 Train with the coach voice / 04 See your week".
+
+### 8. Curved "sunrise" dock for the CTA (Dia)
+- **Build.**
+  - Create a fixed or sticky bottom element containing an ellipse: `width: max(141vw, 2034px); aspect-ratio: 2034/978; border-radius: 50%`, coloured like the page.
+  - Put a glow blob behind it (`filter: blur(40px)`, accent at about 60% opacity).
+  - Map ellipse `scaleY` to scroll progress through a CSS variable (`--dock-arc`, 1 at the hero and about 0.6 later).
+  - Keep the CTA pill on the arc for the whole page.
+- **Why it reads premium.** The CTA is always there but never shouts. It reads as part of the landscape rather than a sticky bar.
+- **xTrain.** The arc is the **centre circle or the "D" of the penalty box** drawn in chalk white, with floodlight glow behind it. CTA: "Build my first session".
+
+### 9. Real screen recordings in device frames, played when in view (Family)
+- **Build.** Clips of 2.5–6 s, H.264 and VP9/AV1, under 1 MB each, `muted playsinline preload="metadata"`. An IntersectionObserver at `threshold: .6` plays and pauses them. Hero-adjacent clips loop; detail clips play once and hold the last frame.
+- **Why it reads premium.** Real motion of the real UI, and nothing autoplays off-screen.
+- **xTrain.** Show the coach-voice moment, the rep counter, and the plan adapting after "too easy". Rive or canvas recreations also work if no recordings exist yet.
+
+### 10. Spec-sheet captions instead of sentences (On LightSpray, Immortals, Williams stats)
+- **Build.** A grid of `dl` rows: the label is mono 11–12 px uppercase at 55% opacity, the value is 16–24 px at 100%. No full stops.
+- **Why it reads premium.** It's dense with facts and light on reading, like sports media.
+- **xTrain.** "Player — Maya, 14 / Kit — ball, wall / Time — 18:00 / Weak-foot touches — +212 this week".
+
+### 11. Live data overlaid on athletic photography (WHOOP)
+- **Build.**
+  - A translucent disc over a full-bleed photo: `backdrop-filter: blur(6px)`, background `color-mix(accent 18%, transparent)`.
+  - Inside it, a canvas or SVG of 150–250 dots on a ring, slowly orbiting, `1 rotation / 40s linear`.
+  - A big number counts up when in view: `gsap.to(obj,{v:38, duration:1.2, ease:"expo.out", snap:{v:1}})`.
+- **Why it reads premium.** It joins the emotional photo and the product data in one frame.
+- **xTrain.** A player striking against a garage wall, with a ring reading "LEFT FOOT 38% ▲ +11".
+
+### 12. Scatter-to-centre collage zoom (United in Football)
+- **Build.**
+  - Pin a section for 150vh with 8–12 photo cards at random `rotate(±8°)` and edge positions.
+  - Scrubbed: cards translate toward the centre and fade, while the hero photo scales from 0.35 to 1 and its `border-radius` goes from 12 px to 0.
+  - The headline stays centred, with `mix-blend-mode: difference` or a text shadow for legibility.
+- **Why it reads premium.** It's documentary and shows the human side without a paragraph.
+- **xTrain.** Scattered snapshots of kids training alone (park walls, garages, a cone in a car park) collapse into one full-bleed shot under "Every great player trained alone first."
+
+### 13. Week as a curved carousel (The Immortals)
+- **Build.** The full version is OGL planes bent on a cylinder (a vertex shader offsets `z` by `cos(x*k)`). The light version: 7 cards on a CSS 3D ring (`perspective:1200px`, each card `rotateY(i*18deg) translateZ(-900px)`), with ScrollTrigger rotating the ring and a day counter rolling MON→SUN.
+- **Why it reads premium.** Spatial, calm, and it advances one chapter per scroll.
+- **xTrain.** The weekly plan: each card is a session with a 2–3 word title ("Weak-Foot Wednesday", "First Touch"), plus "Focus / Minutes" label pairs.
+
+### 14. Dot-cloud athlete that assembles (The Last Tango)
+- **Build.** Skip three.js. Sample a high-contrast player silhouette PNG on a 2D canvas into about 4,000 points. Tween each point from a random start to its target over 1.2 s with `expo.out` and a distance-based stagger. Add a mouse repel effect (radius 80 px, ease back at 0.08 lerp). Cap the frame budget and draw a static PNG under `prefers-reduced-motion`.
+- **Why it reads premium.** The signature "how did they do that" moment, built on a light stack.
+- **xTrain.** A striker made of chalk-white dots. The ball stays solid and in the accent colour, so it's the only coloured thing in the hero.
+
+### 15. Scramble-decode eyebrows plus stepped-corner CTA (Williams, Vercel Ship)
+- **Build.**
+  - `gsap.to(el,{duration:.8, scrambleText:{text:el.dataset.text, chars:"ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789", revealDelay:.15, speed:.6}})` on enter. Use it only on labels of 25 characters or fewer.
+  - For the CTA: `clip-path: polygon(0 6px,6px 6px,6px 0,calc(100% - 6px) 0,calc(100% - 6px) 6px,100% 6px,100% calc(100% - 6px),calc(100% - 6px) calc(100% - 6px),calc(100% - 6px) 100%,6px 100%,6px calc(100% - 6px),0 calc(100% - 6px))`.
+- **Why it reads premium.** A scoreboard-flip feel, kept to micro-labels.
+- **xTrain.** "FIG. 03 — FIRST TOUCH" decodes as each figure enters. The primary CTA has scoreboard-pixel corners.
+
+### Also worth stealing
+- **Raycast's key-cap button shadow stack** (values in §1) for the primary CTA, with press `scale(.97)` over 120 ms and release over 220 ms on `cubic-bezier(.19,1,.22,1)`, after Family.
+- **Perf Lab's "+" registration marks** at card corners (a 9 px cross, 1 px stroke) give a lab or tactics-board feel.
+- **Nothing's dot-grid page background.** `background: radial-gradient(circle, rgba(0,0,0,.08) 1px, transparent 1.2px) 0 0/24px 24px` reads as faint pitch-marking chalk.
+
+---
+
+## 4. Typography recommendations
+
+**Avoid as the primary face:**
+- AI and template defaults: Inter, Space Grotesk, Satoshi, Clash Display, Geist Sans.
+- Instrument Serif, which has become the default "editorial" serif in vibe-coded sites.
+- Generic sports condensed faces: Bebas Neue, Anton, Oswald, Barlow Condensed.
+- Sci-fi faces: Orbitron, Tomorrow (Rive shows how these read).
+
+### A. "Kit Number": Mona Sans + Martian Mono (+ Doto for digits)
+- **Mona Sans** (GitHub, OFL, on Google Fonts) is variable on weight 200–900 *and* width 75–125. One family covers display and text:
+  - Headlines at `wdth 112–125, wght 600–700`, tracking −0.03em.
+  - Big numerals and drill names at `wdth 75, wght 800`, which gives a shirt-number feel without switching to a condensed cliché.
+  - Body at `wdth 100, wght 400`.
+  - Lacoste's Ace Breaker (Site of the Day) sets its hero in Mona Sans at about 140 px.
+- **Martian Mono** (Evil Martians, OFL, variable width) for labels at 11–12 px, uppercase, +0.04em.
+- **Doto** (OFL, dot matrix) only for timers and reps.
+
+### B. "Matchday Programme": Newsreader + Switzer + JetBrains Mono
+- **Newsreader** (Google, optical size 6–72) for one emotive line per section, at 40–72 px with `opsz` matched to size and tracking −0.02em.
+- **Switzer** (Fontshare, free commercial licence, Swiss neo-grotesk) for UI and body.
+- JetBrains Mono for micro labels.
+- This mirrors the serif-plus-grotesk pairings at Dia (Exposure + Oracle), On (Suisse Works + On) and Luma (PP Editorial + Graphik), using free equivalents. It reads like a match programme or a magazine.
+
+### C. "Substitution Board": Bricolage Grotesque + Doto + Fragment Mono
+- **Bricolage Grotesque** (Google, optical size 12–96, width 75–100) has character at display sizes and goes neutral in text. The Immortals sets its whole football site in it (years at 75 px / −0.08em).
+- **Doto** carries the LED-board identity for numbers.
+- **Fragment Mono** (Google) for labels.
+- This is the most tech-forward of the three and pairs best with palette 2 (Floodlight).
+
+**Type rules for every pairing:**
+- Display tracking −0.02 to −0.04em; body 0; small caps labels +0.04 to +0.08em. This follows Linear's tracking scale and Raycast's positive tracking on small text.
+- Line-height 1.0–1.05 on display and 1.5 on body.
+- At most two weights per family on the page.
+
+---
+
+## 5. Palette directions (one accent each)
+
+### 1. Chalk & Card (light, editorial)
+- **Tokens.** Page `#F3F2EE` (chalk), surface `#FFFFFF`, ink `#121212`, muted `#72736C`, hairline `#DEDCD5`, accent **card yellow `#F5C400`**.
+- **Where the accent lives.** The ball in every pitch diagram, the active-step dot, and the primary CTA fill (with ink text). That's all.
+- **References.** United in Football's `#F4C518` on cream, Lacoste's ball yellow, Nothing's grey plinths.
+
+### 2. Floodlight (dark, cinematic; not navy)
+- **Tokens.** Page `#0C0D0C` (warm black), raised `#161716`, line `rgba(255,255,255,.08)`, text `#EDEDE8`, muted `#8A8B85`, accent **hi-vis orange `#FF5A1F`** (the winter match ball and steward bibs).
+- **Where the accent lives.** "Live" things only: the generating shimmer, Doto timer digits while running, and the ball trail in diagrams.
+- **References.** Linear's monochrome chrome, Perf Lab's single orange-red.
+
+### 3. Tactics Cobalt (cool paper, technical)
+- **Tokens.** Page `#F4F4F1`, surface `#FFFFFF`, ink `#0B0C0E`, muted `#6E7076`, grid `rgba(11,12,14,.06)` dots, accent **magnet cobalt `#2340FF`**.
+- **Where the accent lives.** The "you" token on the tactics board (the player dot and its path), focus rings and the primary CTA.
+- **References.** Williams' `#0042FF` and Arc's `#3139FB`, both used with discipline. Tactics-board magnets are red and blue, and here only the blue one appears.
+
+**In all three:** photography supplies the remaining colour (Immortals, Cosmos, Vercel). Use no gradients except the accent glow behind the dock.
+
+---
+
+## 6. Motion rules
+
+**Curves (use these four only):**
+- `--ease-out: cubic-bezier(.23,1,.32,1)` for hovers, small reveals and state changes (Raycast's main curve).
+- `--ease-expo: cubic-bezier(.19,1,.22,1)` for large reveals and press release (Family, Luma). The GSAP equivalent is `expo.out`.
+- `--ease-sheet: cubic-bezier(.32,.72,0,1)` for panels, drawers and the prompt box rising (Linear, Vercel).
+- `--ease-inout: cubic-bezier(.77,0,.175,1)` for large positional moves such as the carousel snap or section handoffs (Dia).
+- Use `linear` only for loops, marquees and scrubbed scroll.
+
+**Durations:**
+
+| Use | Duration |
+|---|---|
+| Hover / colour | 120–180 ms |
+| Press | 100–120 ms down, 220 ms release |
+| State change | 300 ms |
+| Element reveal | 600–800 ms |
+| Hero entrance | 900–1100 ms total per element, whole hero settled by 1.4 s |
+| Shimmer / loader | 1.6–2.0 s linear |
+| Autoplay progress | 5 s |
+| Marquee | 60 s or slower |
+
+**Stagger:**
+- Text lines 100–140 ms.
+- Grid items 60–80 ms.
+- Diagram cones 60 ms.
+- Cap any stagger chain at about 600 ms total.
+
+**Never:**
+- Spring overshoot on text. None of the 20 sites does it; keep `back.out(≤1.4)` for small objects such as cones.
+- Parallax on everything. One depth effect per section at most.
+- Hijacking the wheel on long pages. The Immortals' virtual scroll works only because the whole site is a single scene. Use native scroll, or Lenis with `lerp: .1` if anything.
+- Autoplay video off-screen.
+- More than one looping element in view at once.
+- Scroll-triggered reveals that hide content when JS fails. Default to the visible state and add the `from` state in JS.
+- Ignoring `prefers-reduced-motion`. Under reduced motion, crossfade at 200 ms and drop blur, scale and scrub.
+
+**Interruptibility:** use CSS transitions for hover so effects reverse mid-flight. In GSAP, use `overwrite: "auto"` and `quickTo` for cursor-driven values.
+
+---
+
+## 7. Libraries: cost and benefit for a static page
+
+| Package | Approx. size (min+gz) | Benefit | Cost / note |
+|---|---|---|---|
+| **GSAP core** | about 28 KB | Timelines, the stagger maths and the eases above. All plugins are free since 3.13; Williams runs 3.15 | Worth it as the backbone |
+| **ScrollTrigger** | about 12–17 KB | Pinning, scrub, sticky steps (techniques 3, 7, 12, 13) | Essential if you pin anything |
+| **SplitText** | about 6 KB | Line splitting with masks for technique 1; handles resize re-splitting | Only on 2–3 headlines |
+| **ScrambleText** | about 3 KB | Technique 15 | Labels only |
+| **DrawSVG + MotionPath** | about 2 KB + 8 KB | Ball paths and the player dot (technique 3) | High value for the pitch board |
+| **Flip** | about 8 KB | Sticky-step visual swaps and kit-chip reordering | Optional |
+| **Lenis** | about 4 KB | Smooth wheel feel for editorial pages | Top product sites skip it. Optional, `lerp .1`, never with snap |
+| **OGL** | about 10–25 KB (modular) | Lightweight WebGL for the curved carousel or a dot cloud | Shader work. Use only for the one signature moment |
+| **three.js** | about 150 KB+ | Full 3D (Last Tango, Lacoste) | Too heavy for a landing page unless 3D is the whole idea |
+| **Rive** (`@rive-app/canvas-lite`) | about 100 KB+ including WASM | Interactive, state-machine illustrations (a player that reacts to hover) at tiny file sizes | Needs the Rive editor. Very good for the coach-voice or juggling loop |
+| **Lottie** | about 60 KB | — | Heavy for what it does. Prefer Rive or SVG |
+| **Motion (motion.dev)** | 2.5–18 KB | A small `animate()` and `inView()` if you skip GSAP | No pinning or scrub matching ScrollTrigger |
+| **CSS scroll-driven animations** | 0 KB | Progress bars, the dock arc variable, simple reveals | None of the 20 sites used them; browser support still uneven (check Firefox), keep a fallback |
+
+**Recommended stack:** GSAP + ScrollTrigger + SplitText + DrawSVG/MotionPath (about 55–60 KB total), with Lenis optional. Pick **one** heavy moment: either a canvas-2D dot athlete (0 KB library) or OGL for the curved week carousel, not both. Use Rive only if an interactive character is part of the brand.
+
+---
+
+## 8. What reads as cheap or "AI template" (avoid)
+
+- Esports or sci-fi fonts (Orbitron, Tomorrow) and all-caps everywhere (Rive).
+- Tweet-card testimonial grids, 12-card testimonial walls, grey logo walls as filler (Family, Rive).
+- Repeated floating "JOIN NOW" pills over content, stacked cookie bar plus modal plus promo strip (WHOOP, Perf Lab).
+- Carousels with arrow buttons, 3D-tilted cards, news-portal density (McLaren, Red Bull).
+- Cropping a word with the viewport in every section (Perf Lab). Do it once, if at all.
+- Three-icon "why us" rows with line icons (Nothing's store footer) and FAQ accordions above the fold.
+- Volt-green on black, navy plus turf green, purple-to-blue AI gradients, sparkle emoji as the "AI" signifier.
+- Any section heading longer than about 8 words. Best-in-class headings run 2–6 words ("Planning and monitoring", "Built for how you actually work", "The Hand and the Crown").
+
+---
+
+## Appendix: capture artifacts
+
+- `research/craft/<slug>/`: `00-hero.png`, `NN-scroll.png`, `_sheet*.png` contact sheets, `info.json`, `text.txt`.
+- `research/craft/<slug>/probe/`: intro-burst frames, `probe.json` (CSS census, animations, transitions, GSAP).
+- Recaptures with overlays hidden: `nothing3`, `onls`, `immortals2`, `lasttango2`, `williams2`, `perflab2`, `redbull`.
+- `research/craft/linear/all.css` and `all.early.json`: full Linear CSS and early animation keyframes.
+- Tools in `scratchpad/tools/`:
+  - `shoot.mjs`, the base capture.
+  - `shoot2.mjs`, for overlay-hidden or virtual-scroll sites.
+  - `probe.mjs`, the motion census.
+  - `cssdump.mjs`, which dumps all CSS.
+  - `sample.mjs`, which samples computed style over time.
+  - `evaljs.mjs`, which evaluates JS on a page.
+  - `sheet.py`, which builds contact sheets.

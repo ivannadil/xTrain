@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>xTrain | Soccer training that fits your driveway</title>
+  <meta name="description" content="Tell xTrain what you have, a ball, a wall, a few cones, and how long you've got. It plans the session, runs it drill by drill, and adjusts after every one.">
+  <meta name="theme-color" content="#e8e9e6">
+  <meta name="color-scheme" content="light">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="canonical" href="https://xtrain-pi.vercel.app/">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="xTrain | Soccer training that fits your driveway">
+  <meta property="og:description" content="Tell it what you have. It plans the session and coaches you through it.">
+  <meta property="og:image" content="https://xtrain-pi.vercel.app/og.png">
+  <meta property="og:url" content="https://xtrain-pi.vercel.app/">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="preload" href="/assets/fonts/MonaSans-VF.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/vendor/lenis.css">
+  <link rel="stylesheet" href="/css/site.css">
+</head>
+<body>
+  <svg width="0" height="0" class="sprite" aria-hidden="true" focusable="false">
+    <symbol id="i-arrow" viewBox="0 0 256 256"><path fill="currentColor" d="M224.49,136.49l-72,72a12,12,0,0,1-17-17L187,140H40a12,12,0,0,1,0-24H187L135.51,64.48a12,12,0,0,1,17-17l72,72A12,12,0,0,1,224.49,136.49Z"/></symbol>
+    <symbol id="i-check" viewBox="0 0 256 256"><path fill="currentColor" d="M232.49,80.49l-128,128a12,12,0,0,1-17,0l-56-56a12,12,0,1,1,17-17L96,183,215.51,63.51a12,12,0,0,1,17,17Z"/></symbol>
+    <symbol id="i-plus" viewBox="0 0 256 256"><path fill="currentColor" d="M228,128a12,12,0,0,1-12,12H140v76a12,12,0,0,1-24,0V140H40a12,12,0,0,1,0-24h76V40a12,12,0,0,1,24,0v76h76A12,12,0,0,1,228,128Z"/></symbol>
+  </svg>
+
+  <a class="skip" href="#join">Skip to early access</a>
+
+  <header class="top" data-top>
+    <a class="mark" href="#top" aria-label="xTrain home"><span class="mark-x">x</span>Train</a>
+    <a class="btn btn-ink btn-sm" href="#join" data-cta="nav">Get early access</a>
+  </header>
+
+  <main id="top">
+    <!-- Hero: the setup -->
+    <section class="hero" data-hero aria-labelledby="hero-title">
+      <h1 class="hero-title" id="hero-title"><span class="line">Soccer training that</span> <span class="line">fits your driveway.</span></h1>
+
+      <div class="hero-act">
+        <p class="hero-line">Tell it what you have. It plans the session and coaches you through it.</p>
+        <form class="signup" data-signup data-source="hero" novalidate>
+          <label class="vh" for="hero-email">Email</label>
+          <div class="signup-row">
+            <input id="hero-email" name="email" type="email" inputmode="email" autocomplete="email" placeholder="you@email.com" required>
+            <button class="btn btn-ink" type="submit"><span>Get early access</span><svg class="ic" aria-hidden="true"><use href="#i-arrow"/></svg></button>
+          </div>
+          <input class="hp" type="text" name="company" tabindex="-1" autocomplete="off" aria-hidden="true">
+          <p class="signup-msg" role="status" aria-live="polite"></p>
+        </form>
+        <div class="kit" role="group" aria-label="What have you got? A ball is always in.">
+          <p class="kit-q">What have you got?</p>
+          <button class="kit-item is-on is-fixed" type="button" disabled aria-pressed="true" data-kit="ball">
+            <svg class="kit-glyph" viewBox="-24 -24 48 48" aria-hidden="true"><g class="f-ball"><circle r="12" class="f-ball-skin"/><polygon class="f-ball-panel" points="0,-4.6 4.37,-1.42 2.7,3.72 -2.7,3.72 -4.37,-1.42"/></g></svg>
+            <span>Ball</span>
+          </button>
+          <button class="kit-item" type="button" aria-pressed="false" data-kit="wall">
+            <svg class="kit-glyph" viewBox="-24 -24 48 48" aria-hidden="true"><rect x="-20" y="-7" width="40" height="14" class="kg-wall"/><line x1="-6" y1="-7" x2="-6" y2="7" class="kg-joint"/><line x1="8" y1="-7" x2="8" y2="7" class="kg-joint"/></svg>
+            <span>Wall</span>
+          </button>
+          <button class="kit-item" type="button" aria-pressed="false" data-kit="cones">
+            <svg class="kit-glyph" viewBox="-24 -24 48 48" aria-hidden="true"><g transform="translate(-7 3)"><circle r="12" class="f-cone-brim"/><circle r="7.5" class="f-cone-top"/><circle r="3.2" class="f-cone-hole"/></g><g transform="translate(9 -6)"><circle r="12" class="f-cone-brim"/><circle r="7.5" class="f-cone-top"/><circle r="3.2" class="f-cone-hole"/></g></svg>
+            <span>Cones</span>
+          </button>
+          <button class="kit-item" type="button" aria-pressed="false" data-kit="goal">
+            <svg class="kit-glyph" viewBox="-24 -24 48 48" aria-hidden="true"><path d="M-19 9 V-9 H19 V9" class="kg-goal"/><path d="M-12 -9 V6 M-4 -9 V6 M4 -9 V6 M12 -9 V6 M-19 -2 H19" class="kg-net"/></svg>
+            <span>Goal</span>
+          </button>
+          <button class="kit-item" type="button" aria-pressed="false" data-kit="mate">
+            <svg class="kit-glyph" viewBox="-24 -24 48 48" aria-hidden="true"><circle r="13" class="kg-mate"/><path d="M-5 -3 L0 -9 L5 -3" class="kg-nose"/></svg>
+            <span>Friend</span>
+          </button>
+        </div>
+      </div>
+
+      <figure class="field-wrap" aria-label="Your main drill, drawn from above">
+        <svg class="field tilt" data-field role="img" aria-labelledby="field-title"><title id="field-title">Drill setup</title></svg>
+        <figcaption class="field-cap"><span data-focus-name>Wall Passes</span><span class="field-cue" data-focus-cue></span></figcaption>
+      </figure>
+
+      <div class="lane" data-lane aria-label="Today's session">
+        <div class="lane-time" role="radiogroup" aria-label="Minutes today">
+          <button type="button" role="radio" aria-checked="false" data-min="15">15</button>
+          <button type="button" role="radio" aria-checked="true" data-min="30">30</button>
+          <button type="button" role="radio" aria-checked="false" data-min="45">45</button>
+          <span class="lane-unit">min</span>
+        </div>
+        <ol class="lane-track" data-lane-track></ol>
+        <svg class="lane-ball" data-lane-ball viewBox="-18 -18 36 36" aria-hidden="true"><g class="f-ball"><circle r="12" class="f-ball-skin"/><polygon class="f-ball-panel" points="0,-5.2 4.95,-1.61 3.06,4.21 -3.06,4.21 -4.95,-1.61"/></g></svg>
+      </div>
+    </section>
+
+    <!-- Session: it runs the drills -->
+    <section class="run" data-run aria-labelledby="run-title">
+      <div class="run-pin" data-run-pin>
+        <div class="run-copy">
+          <h2 id="run-title">Then it runs the session with you.</h2>
+          <ol class="run-steps" data-run-steps>
+            <li class="is-on"><b>One drill at a time.</b> A big timer and one cue you can read from where you stand.</li>
+            <li><b>Done early? Skip ahead.</b> Tap next and keep moving.</li>
+            <li><b>Warm-up first, skill last.</b> Every session runs in that order.</li>
+          </ol>
+        </div>
+        <div class="run-stage">
+          <svg class="field field-run tilt" data-run-field role="img" aria-label="The drill being run"></svg>
+          <div class="phone" data-phone aria-label="xTrain session screen, example">
+            <div class="phone-screen">
+              <p class="ph-count" data-ph-count>Drill 1 of 3</p>
+              <p class="ph-name" data-ph-name>Toe Taps</p>
+              <p class="ph-time" data-ph-time>4:00</p>
+              <p class="ph-cue" data-ph-cue>Tap the ball. Never step on it.</p>
+              <div class="ph-bar"><i data-ph-bar></i></div>
+              <p class="ph-next" data-ph-next>Next: Sole Rolls</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Adapt: too easy, too hard -->
+    <section class="adapt" data-adapt aria-labelledby="adapt-title">
+      <h2 id="adapt-title">Too easy? Say so.</h2>
+      <p class="adapt-line">Every session ends with one question. Your answer changes the next one.</p>
+      <div class="adapt-board">
+        <figure class="adapt-day">
+          <figcaption>Today</figcaption>
+          <svg class="field tilt" data-today-field role="img" aria-label="Today's drill"></svg>
+        </figure>
+        <div class="adapt-ask" role="group" aria-labelledby="adapt-q">
+          <p class="adapt-q" id="adapt-q">How was <span data-adapt-name>Wall Passes</span>?</p>
+          <div class="adapt-btns">
+            <button type="button" class="chip" data-rate="easy" aria-pressed="false">Too easy</button>
+            <button type="button" class="chip is-on" data-rate="right" aria-pressed="true">About right</button>
+            <button type="button" class="chip" data-rate="hard" aria-pressed="false">Too hard</button>
+          </div>
+        </div>
+        <figure class="adapt-day">
+          <figcaption>Tomorrow</figcaption>
+          <svg class="field tilt" data-adapt-field role="img" aria-label="Tomorrow's version of the drill"></svg>
+          <p class="adapt-change" data-adapt-change aria-live="polite"></p>
+        </figure>
+      </div>
+    </section>
+
+    <!-- Library -->
+    <section class="lib" data-lib aria-labelledby="lib-title">
+      <h2 id="lib-title">The drills it picks from.</h2>
+      <div class="lib-viewport" data-lib-viewport>
+        <ul class="lib-track" data-lib-track></ul>
+      </div>
+    </section>
+
+    <!-- Join -->
+    <section class="join" id="join" data-join aria-labelledby="join-title">
+      <div class="join-in">
+        <h2 id="join-title">Your first session is ready when you are.</h2>
+        <form class="signup signup-big" data-signup data-source="close" novalidate>
+          <label class="vh" for="close-email">Email</label>
+          <div class="signup-row">
+            <input id="close-email" name="email" type="email" inputmode="email" autocomplete="email" placeholder="you@email.com" required>
+            <button class="btn btn-ink" type="submit"><span>Get early access</span><svg class="ic" aria-hidden="true"><use href="#i-arrow"/></svg></button>
+          </div>
+          <input class="hp" type="text" name="company" tabindex="-1" autocomplete="off" aria-hidden="true">
+          <p class="signup-msg" role="status" aria-live="polite"></p>
+        </form>
+
+        <div class="faq">
+          <details>
+            <summary>What do I need?</summary>
+            <p>A ball and your phone. A wall, a few cones, a small goal, or a friend open up more drills.</p>
+          </details>
+          <details>
+            <summary>Who is it for?</summary>
+            <p>Players around 12 to 18 who want to get better between practices, whether you just started or play club.</p>
+          </details>
+          <details>
+            <summary>Where does the AI come in?</summary>
+            <p>It picks drills from a library our team wrote, fits them to your time and gear, and changes the plan after each session based on what you tell it.</p>
+          </details>
+          <details>
+            <summary>When can I use it?</summary>
+            <p>We're testing it now. Leave your email and you'll hear from us before anyone else.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <p class="foot-mark" aria-hidden="true"><span class="mark-x">x</span>Train</p>
+    <div class="foot-row">
+      <p>&copy; 2026 xTrain</p>
+      <details class="foot-privacy">
+        <summary>Privacy</summary>
+        <p>We keep your email and anything you choose to tell us about how you play. We use it only to contact you about xTrain, and we never sell it.</p>
+      </details>
+    </div>
+  </footer>
+
+  <!-- Step two of signup -->
+  <dialog class="more" data-more aria-labelledby="more-title">
+    <form method="dialog" class="more-in" data-more-form>
+      <h2 id="more-title">You're in.</h2>
+      <p class="more-line">Two quick ones so your first plan fits. Skip if you like.</p>
+      <fieldset>
+        <legend>Position</legend>
+        <div class="chips" data-group="position">
+          <button type="button" class="chip" data-v="keeper">Keeper</button>
+          <button type="button" class="chip" data-v="defender">Defender</button>
+          <button type="button" class="chip" data-v="midfielder">Midfielder</button>
+          <button type="button" class="chip" data-v="forward">Forward</button>
+          <button type="button" class="chip" data-v="not sure">Not sure</button>
+        </div>
+      </fieldset>
+      <fieldset>
+        <legend>Where you play now</legend>
+        <div class="chips" data-group="level">
+          <button type="button" class="chip" data-v="just starting">Just starting</button>
+          <button type="button" class="chip" data-v="school team">School team</button>
+          <button type="button" class="chip" data-v="club team">Club team</button>
+          <button type="button" class="chip" data-v="academy">Academy</button>
+        </div>
+      </fieldset>
+      <div class="more-actions">
+        <button class="btn btn-ink" type="button" data-more-save>Save</button>
+        <button class="btn-text" type="button" data-more-skip>Skip</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script src="/vendor/gsap.min.js"></script>
+  <script src="/vendor/ScrollTrigger.min.js"></script>
+  <script src="/vendor/SplitText.min.js"></script>
+  <script src="/vendor/Flip.min.js"></script>
+  <script src="/vendor/CustomEase.min.js"></script>
+  <script src="/vendor/DrawSVGPlugin.min.js"></script>
+  <script src="/vendor/MotionPathPlugin.min.js"></script>
+  <script src="/vendor/ScrambleTextPlugin.min.js"></script>
+  <script src="/vendor/Draggable.min.js"></script>
+  <script src="/vendor/InertiaPlugin.min.js"></script>
+  <script src="/vendor/lenis.min.js"></script>
+  <script type="module" src="/js/main.js"></script>
+</body>
+</html>
