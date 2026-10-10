@@ -54,11 +54,14 @@ Do not design from memory. Open the real sites and measure them.
 Reports in this repo:
 - `docs/research/synesdj.md`: the reference site, measured down to its easing curves.
 - `docs/research/design-references.md`: 20 craft and sport sites (Linear, Raycast, Family, Cosmos, Dia, Rive, Luma, Vercel Ship, Nothing, Teenage Engineering, On, WHOOP, McLaren, Red Bull, Williams, and five recent Awwwards sports sites).
-- `docs/research/competitors.md`: soccer and sports-AI training products plus the plan-first fitness apps (DribbleUp, Techne, JOGO, AiScout, HomeCourt, PLAYERMAKER, Veo, Catapult, MOJO, Runna, Ladder, Future, Nike Football).
+- `docs/research/competitors.md`: 16 soccer, sports-AI, and plan-first fitness sites captured at both widths (Runna, Ladder, Future, Techne Futbol, HomeCourt, PLAYERMAKER, Veo, DribbleUp, Anytime Soccer, Dribly, Trainsolo, Sorare, MOJO, Catapult One, and others). JOGO and aiScout would not load over TLS from the research machine.
 
 What the research decided, in short:
 - The best pages in this space use 300 to 450 words in total, one accent colour used rarely, labels instead of sentences, and the real product as the illustration.
-- Category defaults to stay away from: night-stadium athlete photography, neon green on black, floating phone mockups over gradients, rows of three feature cards, "Unlock your potential" copy.
+- Category defaults to stay away from: a dark base with one electric accent (acid lime on black at Ladder and MOJO, blue on near-black at Dribly, hot pink on navy at PLAYERMAKER, navy and sky at Techne), condensed italic caps, tilted glowing phones, floodlit stadium photos of adults, FIFA-style rating cards, App Store badges as the only action (desktop visitors hit a dead end), countdown timers, and copy like "Upgrade your game" or "Your AI Football Coach". A light neutral base is the open space: only Veo and Future use one, and neither is a consumer soccer app.
+- Competitor mechanics adopted: Runna's input-to-estimate calculator (only shown as screenshots there) made live as the kit picker; Ladder's whole-session preview as the session lane; Future's on-screen adaptation as "Too easy? Say so."; email asked last and alone. Not adopted: countdowns, workout counters, discount pop-ups, and Future's price-before-quiz (no price exists yet).
+- Human lines name a place, a duration, a physical action, or a real feeling ("Backyard, basement, driveway, it doesn't matter." from DribbleUp). AI-sounding lines are abstract lists of three ("analyzes every touch, builds personalized drills, plans smarter sessions"). Write to a 15 year old training alone after school.
+- Under-13 visitors are asked to have a parent sign up (FAQ), since the list collects emails.
 - The steal-worthy mechanics: the product is the hero and works in place (Linear, Raycast); a typed or tapped input that the product answers instantly (Luma, Runna's plan preview); a diagram that assembles itself (Linear's figures); scramble-decoded labels for a computed result (Williams); blur-to-sharp headline entrance at about 120ms per line (Linear); Mona Sans with its width axis for sport type (Lacoste's Site of the Day).
 - Signup: one field and one button visible, extras asked after the email is saved, never before.
 
@@ -69,9 +72,9 @@ The world: a training ground seen from above. Flat saucer cones, a ball, a wall,
 - Ground: cool driveway concrete `oklch(0.928 0.004 150)`, with a darker slab `oklch(0.885 0.005 150)` for the driveway itself, and static grain over everything.
 - Ink: asphalt `oklch(0.2 0.008 255)` for type, walls, players, and every line.
 - Kit colour: saucer-cone orange `oklch(0.69 0.19 44)` with a lighter top `oklch(0.77 0.16 56)`. It appears on cones, on the timer bar, and on one flooded section (the join block). Type is never orange.
-- Depth: flat layers overlapping, plus one perspective tilt on the slab (about 20 degrees) that leans a few degrees toward the pointer. No shadows, gradients, or glass.
+- Depth: flat layers overlapping only. The driveway is drawn as the ground itself (poured concrete with a hard grid of expansion joints) and shown through square-cornered windows. A 20 degree perspective tilt was tried and removed in review: it read as the stock tilted-card hero and skewed the notation. No shadows, gradients, or glass.
 - Notation, from real coaching diagrams: solid line with an arrow for a pass, dotted for a run, wavy for a dribble, one-word labels next to each route.
-- Type: Mona Sans variable, self-hosted. Headlines at weight 790 to 820 and width 116%, tracking about -0.03em, two balanced lines. Text at width 100%, weight 440 to 620.
+- Type: Anybody (variable width, Etcetera Type Co, OFL) for headlines and the wordmark at about 112% width and weight 780 to 840; Hanken Grotesk for text at weight 440 to 700. Both self-hosted. Mona Sans was the first pick and was dropped because impeccable's detector lists it as overused.
 - Shape: pills for every control, 18px for objects (cards, slabs), circles for kit.
 
 ## 6. The page, section by section
@@ -81,14 +84,14 @@ Word budget for the whole page: under 450 visible words, FAQ answers excluded.
 1. **Hero (one viewport, 1440x900 down to 360 wide).**
    - Headline across the top, two lines: "Soccer training that fits your driveway."
    - Left: one line ("Tell it what you have. It plans the session and coaches you through it."), the email form, then "What have you got?" with kit chips: Ball (always on), Wall, Cones, Goal, A friend. Chips you don't have are dashed outlines; chips you have are solid.
-   - Right: the driveway slab in perspective, bleeding off the right edge, with the main drill for your kit drawn on it. The ball and player run the routes on a loop.
+   - Right: a window onto the driveway, bleeding off the right edge, with the main drill for your kit drawn on it and framed by a camera that moves to each new setup. The ball and player run the routes on a loop.
    - Bottom edge: the session lane. A painted line with a cone at the start of each drill, gaps sized by minutes, the focus drill's line in full ink, and a 15 / 30 / 45 minute control.
-   - Signature interaction: tap a chip and the cones slide to their new spots, the wall or goal drops in, the routes draw on, a ball rolls down the lane, and each drill name decodes into place as it passes. Until the visitor touches anything, the hero cycles through kits by itself every 4.4 seconds. The first real tap stops that for good.
+   - Signature interaction: tap a chip and the camera reframes, the cones slide to their new spots, the wall or goal drops in, the routes draw on, a ball rolls down the lane, and each drill name slides up into place as it passes. (Scrambled-text decoding was tried and removed in review: gibberish in the first viewport read as machine-made.) Until the visitor touches anything, the hero cycles through kits by itself every 4.4 seconds. The first real tap stops that for good.
    - Mobile order: headline, line, slab, kit, lane (vertical list), form.
-2. **"Then it runs the session with you."** Pinned for about two screens. The visitor's own first three drills play in order on the slab, while a phone lying on the same plane shows "Drill 1 of 3", the name, a timer that counts down with the scroll, the cue, an orange bar, and what's next. Three short steps on the left light up in turn.
-3. **"Too easy? Say so."** One line under it. Three columns: Today's drill, the question with three buttons (Too easy, About right, Too hard), and Tomorrow's drill under the same camera. Too easy moves the player back from the wall or pulls the cones closer and states the harder variation from the drill data. Too hard does the opposite.
-4. **"The drills it picks from."** A draggable strip of drill cards, one per real drill, each a live diagram (it plays on hover) with the name and "Block · gear".
-5. **Join.** The one flooded section, all cone orange: "Your first session is ready when you are.", the email form, then four FAQ items (What do I need, Who is it for, Where does the AI come in, When can I use it).
+2. **"Then it runs the session with you."** Pinned for about two screens, mirrored from the hero (the field bleeds off the left edge, copy on the right). The visitor's whole session plays in order on the slab, while a phone lying flat on it shows "Drill 1 of 4", the name, a timer that counts down with the scroll, the cue, an ink bar, and what's next. Three short steps light up in turn.
+3. **"Too easy? Say so."** One line under it. Three columns: Today's drill, the question with three buttons (Too easy, About right, Too hard), and Tomorrow's drill under the same camera. "Too easy" is selected at rest, and the first time the section scrolls in, Tomorrow starts identical to Today and then tightens. The caption names exactly what the drawing changed ("Harder: start further from the wall.").
+4. **"The drills it picks from."** One long draggable slab with every real drill set out on it at the same scale, so each takes the ground its setup needs. The name and "Block · gear" are written on the ground above each drill, and drills play on hover. Not cards.
+5. **Join.** The one flooded section, all cone orange: "Your first session is ready when you are.", the email form, four FAQ items (What do I need, Who is it for, Where does the AI come in, When can I use it), and down the right column the visitor's own session as a full-height cone lane ("Your 30 minutes"), gaps sized by minutes.
 6. **Footer.** The wordmark at full width, copyright, and a privacy note that opens in place.
 
 One state object (kit plus minutes) drives the hero, the lane, the pinned session, the adapt section, and the signup payload, so the whole page reflects what the visitor picked.

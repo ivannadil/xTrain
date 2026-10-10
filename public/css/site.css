@@ -43,7 +43,7 @@
   --r-ctl: 999px;
   --r-obj: 18px;
 
-  --out: cubic-bezier(0.16, 1, 0.3, 1);
+  --out: cubic-bezier(0.23, 1, 0.32, 1);
   --in-out: cubic-bezier(0.65, 0, 0.35, 1);
 }
 
@@ -71,7 +71,7 @@ body::before {
 }
 ::selection { background: var(--ink); color: var(--paper); }
 :focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; border-radius: 6px; }
-input { caret-color: var(--cone-deep); }
+input { caret-color: var(--ink); }
 html { scrollbar-color: var(--ink-3) var(--ground); scrollbar-width: thin; }
 img, svg { display: block; }
 h1, h2, h3, p { margin: 0; }
@@ -359,7 +359,7 @@ a { color: inherit; text-underline-offset: 0.2em; text-decoration-thickness: 1px
 .lib-track {
   list-style: none; margin: 0 var(--gut); padding: 0; display: flex; align-items: stretch; width: max-content;
   background-color: var(--slab);
-  /* the driveway's expansion joints, every 240px, as hard-edged lines */
+  /* the driveway's expansion joints, every 360px, as hard-edged lines */
   background-image: linear-gradient(var(--slab-joint) 0 3px, transparent 3px), linear-gradient(90deg, var(--slab-joint) 0 3px, transparent 3px);
   background-size: 360px 360px; background-position: 95px 190px;
 }
