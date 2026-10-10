@@ -1,0 +1,17 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "clipped-overflow-container",
+        "value": "*",
+        "files": [
+          "public/index.html"
+        ],
+        "createdAt": "2026-10-10T21:09:54.075Z",
+        "reason": "agent decision 2026-10-10: overflow-x: clip on html/body stops the right-bleeding driveway field from causing horizontal scroll; the page has no tooltips, menus, or popovers; finish reviewer called the clip intentional"
+      }
+    ]
+  }
+}

@@ -1,7 +1,7 @@
 import { DRILLS, LIBRARY, buildSession } from './drills.js';
 import { Field } from './field.js';
 
-gsap.registerPlugin(ScrollTrigger, SplitText, Flip, CustomEase, DrawSVGPlugin, MotionPathPlugin, ScrambleTextPlugin, Draggable, InertiaPlugin);
+gsap.registerPlugin(ScrollTrigger, SplitText, Flip, CustomEase, DrawSVGPlugin, MotionPathPlugin, Draggable, InertiaPlugin);
 // Curves measured on the reference sites (see docs/research/design-references.md).
 CustomEase.create('out', '0.23, 1, 0.32, 1');     // states, hovers
 CustomEase.create('reveal', '0.19, 1, 0.22, 1');  // entrances
@@ -63,8 +63,9 @@ function renderLane(s, animate) {
       li = document.createElement('li');
       li.className = 'lane-seg';
       li.dataset.id = id;
-      li.innerHTML = `<span class="lane-name"></span><span class="lane-min"><span class="n">0</span> min</span>`;
-      li.querySelector('.lane-name').textContent = animate ? '' : DRILLS[id].name;
+      li.innerHTML = `<span class="lane-name"><span class="nm"></span></span><span class="lane-min"><span class="n">0</span> min</span>`;
+      li.querySelector('.nm').textContent = DRILLS[id].name;
+      li.dataset.name = DRILLS[id].name;
       li.style.flexBasis = '0';
       li.style.flexGrow = animate ? 0 : s.mins[i];
     }
@@ -87,18 +88,20 @@ function renderLane(s, animate) {
   if (animate) rollLane(next);
 }
 
-// The plan gets laid: a ball rolls down the lane and each drill name settles as it passes.
+// The plan gets laid: a ball rolls down the lane and each drill name slides in as it passes.
 const laneBall = $('[data-lane-ball]');
 function rollLane(items) {
   const lane = $('[data-lane]').getBoundingClientRect();
   const desktop = innerWidth > 1023;
   gsap.killTweensOf(laneBall);
-  const tl = gsap.timeline({ delay: 0.15 });
+  const tl = gsap.timeline({ delay: 0.1 });
   items.forEach((li, i) => {
-    const nameEl = li.querySelector('.lane-name');
-    const finalName = DRILLS[li.dataset.id].name;
-    const at = i * 0.11;
-    tl.to(nameEl, { duration: 0.55, scrambleText: { text: finalName, chars: 'lowerCase', speed: 0.6, revealDelay: 0.15 }, ease: 'none' }, at);
+    const wrap = li.querySelector('.lane-name');
+    const was = wrap.querySelector('.nm');
+    const at = i * 0.1;
+    // the name text is always the drill's; slide it in from below under a mask
+    gsap.set(was, { yPercent: 0 });
+    tl.fromTo(was, { yPercent: 110 }, { yPercent: 0, duration: 0.55, ease: 'reveal' }, at);
   });
   if (desktop) {
     const track = laneTrack.getBoundingClientRect();
@@ -133,8 +136,20 @@ onChange((s, why) => {
     b.classList.toggle('is-on', on);
     b.setAttribute('aria-pressed', on);
   });
-  $$('.lane-time button').forEach((b) => b.setAttribute('aria-checked', +b.dataset.min === s.minutes));
+  renderJoin(s.session, s.minutes);
+  $$('.lane-time button').forEach((b) => {
+    const on = +b.dataset.min === s.minutes;
+    b.setAttribute('aria-checked', on);
+    b.tabIndex = on ? 0 : -1; // one tab stop for the group; arrows move inside it
+  });
 });
+const joinLane = $('[data-join-lane]');
+const joinTitle = $('[data-join-title]');
+function renderJoin(ses, minutes) {
+  joinTitle.textContent = `Your ${minutes} minutes`;
+  joinLane.innerHTML = ses.ids.map((id, i) => `<li><span>${DRILLS[id].name}</span><span class="m">${ses.mins[i]} min</span></li>`).join('');
+}
+
 function toggleKit(k) {
   const adding = !state.kit.includes(k);
   const kit = adding ? [...state.kit, k] : state.kit.filter((x) => x !== k);
@@ -163,12 +178,21 @@ $('.lane-time').addEventListener('keydown', (e) => {
 // Until someone touches the kit, the hero shows what the kit does on its own.
 const demoSteps = [['wall', 'cones'], ['cones'], ['goal', 'cones'], ['mate', 'goal'], ['wall']];
 let demoTimer = null, demoIndex = 0, demoOn = !still && kitParam === null;
+function scheduleDemo(ms) {
+  clearTimeout(demoTimer);
+  demoTimer = demoOn ? setTimeout(demoTick, ms) : null;
+}
 function demoTick() {
   if (!demoOn) return;
   const next = demoSteps[demoIndex++ % demoSteps.length];
   update({ kit: next, prefer: next[0] }, 'demo');
-  demoTimer = setTimeout(demoTick, 4400);
+  scheduleDemo(4400);
 }
+// hovering the kit means a tap may be coming: hold the demo still until the pointer leaves
+const kitEl = $('.kit');
+kitEl.addEventListener('pointerenter', () => { clearTimeout(demoTimer); demoTimer = null; });
+kitEl.addEventListener('pointerleave', () => { if (demoOn && !demoTimer) scheduleDemo(2600); });
+kitEl.addEventListener('focusin', () => stopDemo());
 function stopDemo() {
   demoOn = false;
   clearTimeout(demoTimer);
@@ -177,26 +201,13 @@ function stopDemo() {
 ScrollTrigger.create({
   trigger: '[data-hero]', start: 'top bottom', end: 'bottom top',
   onToggle: (s) => {
-    if (s.isActive) { heroField.resume(); if (demoOn && !demoTimer) demoTimer = setTimeout(demoTick, 3000); }
+    if (s.isActive) { heroField.resume(); if (demoOn && !demoTimer) scheduleDemo(3000); }
     else { heroField.pause(); clearTimeout(demoTimer); demoTimer = null; }
   },
 });
 
-// the slab leans a few degrees toward the pointer
-if (fine && !still) {
-  const hf = $('[data-field]');
-  const rx = gsap.quickTo(hf, '--rx', { duration: 0.9, ease: 'out', unit: 'deg' });
-  const ry = gsap.quickTo(hf, '--ry', { duration: 0.9, ease: 'out', unit: 'deg' });
-  $('[data-hero]').addEventListener('pointermove', (e) => {
-    const r = hf.getBoundingClientRect();
-    const nx = (e.clientX - (r.left + r.width / 2)) / innerWidth;
-    const ny = (e.clientY - (r.top + r.height / 2)) / innerHeight;
-    rx(22 - ny * 6); ry(nx * 6);
-  });
-}
-
 /* ---------------- run: the session plays as you scroll ---------------- */
-const runField = new Field($('[data-run-field]'), { slab: true });
+const runField = new Field($('[data-run-field]'), { slab: true, room: innerWidth > 1023 ? 0.55 : 0.5 });
 const ph = {
   count: $('[data-ph-count]'), name: $('[data-ph-name]'), time: $('[data-ph-time]'),
   cue: $('[data-ph-cue]'), bar: $('[data-ph-bar]'), next: $('[data-ph-next]'),
@@ -206,10 +217,9 @@ let runIndex = -1;
 const fmt = (sec) => `${Math.floor(sec / 60)}:${String(Math.floor(sec % 60)).padStart(2, '0')}`;
 
 function runDrills() {
-  // the visitor's own session: up to three drills, warm-up first
+  // the same session the lane built, every drill in order
   const s = state.session;
-  const pick = s.ids.length <= 3 ? s.ids.map((id, i) => [id, s.mins[i]]) : [[s.ids[0], s.mins[0]], [s.ids[1], s.mins[1]], [s.focus, s.mins[s.ids.indexOf(s.focus)]]];
-  return pick;
+  return s.ids.map((id, i) => [id, s.mins[i]]);
 }
 function showRun(i, progress = 0, animate = true) {
   const list = runDrills();
@@ -227,7 +237,6 @@ function showRun(i, progress = 0, animate = true) {
       gsap.fromTo(ph.cue, { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.4, delay: 0.1 });
     }
     ph.name.textContent = d.name;
-    runSteps.forEach((li, k) => li.classList.toggle('is-on', k === Math.min(i, runSteps.length - 1)));
   }
   const left = min * 60 * (1 - progress);
   ph.time.textContent = fmt(left);
@@ -242,6 +251,8 @@ if (!still) {
       const p = st.progress * n;
       const i = Math.min(n - 1, Math.floor(p));
       showRun(i, Math.min(0.999, p - i));
+      const step = Math.min(runSteps.length - 1, Math.floor(st.progress * runSteps.length));
+      runSteps.forEach((li, k) => li.classList.toggle('is-on', k === step));
     },
     onToggle: (st) => (st.isActive ? runField.resume() : runField.pause()),
   });
@@ -252,7 +263,8 @@ const adaptField = new Field($('[data-adapt-field]'), { slab: true, labels: fals
 const todayField = new Field($('[data-today-field]'), { slab: true, labels: false });
 const adaptName = $('[data-adapt-name]');
 const adaptChange = $('[data-adapt-change]');
-let rating = 'right';
+let rating = 'easy';
+let adaptPlayed = false;
 
 // Tomorrow's version of a drill: tighter or looser, further from or closer to the wall.
 function variant(id, how) {
@@ -262,12 +274,12 @@ function variant(id, how) {
   const cones = d.objects.filter((o) => o.kind === 'cone');
   let f;
   if (hasFixture) {
-    const k = how === 'easy' ? 1.24 : 0.8;
+    const k = how === 'easy' ? 1.3 : 0.76;
     f = (x, y) => [x, y < 110 ? y : 105 + (y - 105) * k];
   } else if (cones.length > 1) {
     const cx = cones.reduce((a, o) => a + o.x, 0) / cones.length;
     const cy = cones.reduce((a, o) => a + o.y, 0) / cones.length;
-    const k = how === 'easy' ? 0.8 : 1.18;
+    const k = how === 'easy' ? 0.72 : 1.22;
     f = (x, y) => [cx + (x - cx) * k, cy + (y - cy) * k];
   } else {
     const k = how === 'easy' ? 1.15 : 0.88;
@@ -286,8 +298,12 @@ function showAdapt(animate) {
   const d = DRILLS[id];
   adaptName.textContent = d.name;
   if (todayField.current !== id) {
-    const [x, y, w, h] = todayField.frame(d);
-    const view = [x - w * 0.12, y - h * 0.12, w * 1.24, h * 1.24];
+    // one camera for both days, framed on everything any answer could produce
+    const fr = [d, variant(id, 'easy'), variant(id, 'hard')].map((v) => todayField.frame(v));
+    const x0 = Math.min(...fr.map((f) => f[0])), y0 = Math.min(...fr.map((f) => f[1]));
+    const x1 = Math.max(...fr.map((f) => f[0] + f[2])), y1 = Math.max(...fr.map((f) => f[1] + f[3]));
+    const w = Math.max(x1 - x0, (y1 - y0) * 1000 / 640), h = w * 640 / 1000;
+    const view = [(x0 + x1) / 2 - w / 2, (y0 + y1) / 2 - h / 2, w, h];
     todayField.fixedView = view;
     adaptField.fixedView = view;
     todayField.set(id, { animate: false });
@@ -310,7 +326,15 @@ $$('[data-rate]').forEach((b) => b.addEventListener('click', () => {
 ScrollTrigger.create({
   trigger: '[data-adapt]', start: 'top bottom', end: 'bottom top',
   onToggle: (s) => {
-    if (s.isActive) { if (state.session.focus !== todayField.current) showAdapt(false); if (!still) adaptField.play(); }
+    if (s.isActive) {
+      if (state.session.focus !== todayField.current) showAdapt(false);
+      if (!still && !adaptPlayed) {
+        // the first time it comes into view, play the answer: tomorrow starts as today, then tightens
+        adaptPlayed = true;
+        adaptField.set(DRILLS[state.session.focus], { animate: false });
+        setTimeout(() => showAdapt(true), 900);
+      } else if (!still) adaptField.play();
+    }
     else adaptField.stopLoop();
   },
 });
@@ -368,7 +392,7 @@ if (!still) {
       .from('.kit', { autoAlpha: 0, y: 12, duration: 0.8 }, 0.6)
       .from('.lane', { autoAlpha: 0, duration: 0.7 }, 0.8)
       .from('.field-cap', { autoAlpha: 0, y: 8, duration: 0.6 }, 1.0)
-      .from('[data-field]', { '--rx': '58deg', '--rz': '-14deg', autoAlpha: 0, duration: 1.6, ease: 'reveal' }, 0.15);
+      .from('[data-field]', { autoAlpha: 0, duration: 0.9, ease: 'out' }, 0.2);
     $$('.run h2, .adapt h2, .lib h2, .join h2').forEach((h) => lift(h, { scrollTrigger: { trigger: h, start: 'top 86%' } }));
   });
 }
@@ -461,5 +485,5 @@ ScrollTrigger.create({ trigger: '[data-join]', start: 'top 72px', end: 'bottom 7
 update({}, still ? 'init-still' : 'init');
 showAdapt(false);
 showRun(0, 0, false);
-if (demoOn) demoTimer = setTimeout(demoTick, 4600);
+scheduleDemo(4600);
 window.addEventListener('load', () => ScrollTrigger.refresh());

@@ -76,7 +76,7 @@
       </div>
 
       <figure class="field-wrap" aria-label="Your main drill, drawn from above">
-        <svg class="field tilt" data-field role="img" aria-labelledby="field-title"><title id="field-title">Drill setup</title></svg>
+        <svg class="field" data-field role="img" aria-labelledby="field-title"><title id="field-title">Drill setup</title></svg>
         <figcaption class="field-cap"><span data-focus-name>Wall Passes</span><span class="field-cue" data-focus-cue></span></figcaption>
       </figure>
 
@@ -95,19 +95,11 @@
     <!-- Session: it runs the drills -->
     <section class="run" data-run aria-labelledby="run-title">
       <div class="run-pin" data-run-pin>
-        <div class="run-copy">
-          <h2 id="run-title">Then it runs the session with you.</h2>
-          <ol class="run-steps" data-run-steps>
-            <li class="is-on"><b>One drill at a time.</b> A big timer and one cue you can read from where you stand.</li>
-            <li><b>Done early? Skip ahead.</b> Tap next and keep moving.</li>
-            <li><b>Warm-up first, skill last.</b> Every session runs in that order.</li>
-          </ol>
-        </div>
         <div class="run-stage">
-          <svg class="field field-run tilt" data-run-field role="img" aria-label="The drill being run"></svg>
+          <svg class="field field-run" data-run-field role="img" aria-label="The drill being run"></svg>
           <div class="phone" data-phone aria-label="xTrain session screen, example">
             <div class="phone-screen">
-              <p class="ph-count" data-ph-count>Drill 1 of 3</p>
+              <p class="ph-count" data-ph-count>Drill 1 of 4</p>
               <p class="ph-name" data-ph-name>Toe Taps</p>
               <p class="ph-time" data-ph-time>4:00</p>
               <p class="ph-cue" data-ph-cue>Tap the ball. Never step on it.</p>
@@ -115,6 +107,14 @@
               <p class="ph-next" data-ph-next>Next: Sole Rolls</p>
             </div>
           </div>
+        </div>
+        <div class="run-copy">
+          <h2 id="run-title">Then it runs the session with you.</h2>
+          <ol class="run-steps" data-run-steps>
+            <li class="is-on"><b>One drill at a time.</b> A big timer and one cue you can read from where you stand.</li>
+            <li><b>Done early? Skip ahead.</b> Tap next and keep moving.</li>
+            <li><b>Warm-up first, skill last.</b> Every session runs in that order.</li>
+          </ol>
         </div>
       </div>
     </section>
@@ -126,19 +126,19 @@
       <div class="adapt-board">
         <figure class="adapt-day">
           <figcaption>Today</figcaption>
-          <svg class="field tilt" data-today-field role="img" aria-label="Today's drill"></svg>
+          <svg class="field" data-today-field role="img" aria-label="Today's drill"></svg>
         </figure>
         <div class="adapt-ask" role="group" aria-labelledby="adapt-q">
           <p class="adapt-q" id="adapt-q">How was <span data-adapt-name>Wall Passes</span>?</p>
           <div class="adapt-btns">
-            <button type="button" class="chip" data-rate="easy" aria-pressed="false">Too easy</button>
-            <button type="button" class="chip is-on" data-rate="right" aria-pressed="true">About right</button>
+            <button type="button" class="chip is-on" data-rate="easy" aria-pressed="true">Too easy</button>
+            <button type="button" class="chip" data-rate="right" aria-pressed="false">About right</button>
             <button type="button" class="chip" data-rate="hard" aria-pressed="false">Too hard</button>
           </div>
         </div>
         <figure class="adapt-day">
           <figcaption>Tomorrow</figcaption>
-          <svg class="field tilt" data-adapt-field role="img" aria-label="Tomorrow's version of the drill"></svg>
+          <svg class="field" data-adapt-field role="img" aria-label="Tomorrow's version of the drill"></svg>
           <p class="adapt-change" data-adapt-change aria-live="polite"></p>
         </figure>
       </div>
@@ -155,35 +155,41 @@
     <!-- Join -->
     <section class="join" id="join" data-join aria-labelledby="join-title">
       <div class="join-in">
-        <h2 id="join-title">Your first session is ready when you are.</h2>
-        <form class="signup signup-big" data-signup data-source="close" novalidate>
-          <label class="vh" for="close-email">Email</label>
-          <div class="signup-row">
-            <input id="close-email" name="email" type="email" inputmode="email" autocomplete="email" placeholder="you@email.com" required>
-            <button class="btn btn-ink" type="submit"><span>Get early access</span><svg class="ic" aria-hidden="true"><use href="#i-arrow"/></svg></button>
-          </div>
-          <input class="hp" type="text" name="company" tabindex="-1" autocomplete="off" aria-hidden="true">
-          <p class="signup-msg" role="status" aria-live="polite"></p>
-        </form>
+        <div class="join-main">
+          <h2 id="join-title">Your first session is ready when you are.</h2>
+          <form class="signup signup-big" data-signup data-source="close" novalidate>
+            <label class="vh" for="close-email">Email</label>
+            <div class="signup-row">
+              <input id="close-email" name="email" type="email" inputmode="email" autocomplete="email" placeholder="you@email.com" required>
+              <button class="btn btn-ink" type="submit"><span>Get early access</span><svg class="ic" aria-hidden="true"><use href="#i-arrow"/></svg></button>
+            </div>
+            <input class="hp" type="text" name="company" tabindex="-1" autocomplete="off" aria-hidden="true">
+            <p class="signup-msg" role="status" aria-live="polite"></p>
+          </form>
 
-        <div class="faq">
-          <details>
-            <summary>What do I need?</summary>
-            <p>A ball and your phone. A wall, a few cones, a small goal, or a friend open up more drills.</p>
-          </details>
-          <details>
-            <summary>Who is it for?</summary>
-            <p>Players around 12 to 18 who want to get better between practices, whether you just started or play club.</p>
-          </details>
-          <details>
-            <summary>Where does the AI come in?</summary>
-            <p>It picks drills from a library our team wrote, fits them to your time and gear, and changes the plan after each session based on what you tell it.</p>
-          </details>
-          <details>
-            <summary>When can I use it?</summary>
-            <p>We're testing it now. Leave your email and you'll hear from us before anyone else.</p>
-          </details>
         </div>
+        <aside class="join-plan" aria-labelledby="join-plan-title">
+          <p class="join-plan-t" id="join-plan-title" data-join-title>Your 30 minutes</p>
+          <ol class="join-lane" data-join-lane></ol>
+        </aside>
+        <div class="faq">
+            <details>
+              <summary>What do I need?</summary>
+              <p>A ball and your phone. A wall, a few cones, a small goal, or a friend open up more drills.</p>
+            </details>
+            <details>
+              <summary>Who is it for?</summary>
+              <p>Players around 12 to 18 who want to get better between practices, whether you just started or play club.</p>
+            </details>
+            <details>
+              <summary>Where does the AI come in?</summary>
+              <p>It picks drills from a library our team wrote, fits them to your time and gear, and changes the plan after each session based on what you tell it.</p>
+            </details>
+            <details>
+              <summary>When can I use it?</summary>
+              <p>We're testing it now. Leave your email and you'll hear from us before anyone else.</p>
+            </details>
+          </div>
       </div>
     </section>
   </main>
@@ -237,7 +243,6 @@
   <script src="/vendor/CustomEase.min.js"></script>
   <script src="/vendor/DrawSVGPlugin.min.js"></script>
   <script src="/vendor/MotionPathPlugin.min.js"></script>
-  <script src="/vendor/ScrambleTextPlugin.min.js"></script>
   <script src="/vendor/Draggable.min.js"></script>
   <script src="/vendor/InertiaPlugin.min.js"></script>
   <script src="/vendor/lenis.min.js"></script>

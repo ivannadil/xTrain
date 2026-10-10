@@ -17,7 +17,7 @@ Unresolved: price, launch date, store availability, a public contact address. No
 
 THESIS: The page is a training ground seen from straight above. Flat saucer cones, a ball, a wall, and a goal sit on concrete, and the visitor's own kit decides where they land. It refuses the category page: a night-stadium athlete photo, a neon-green button, a floating phone, and a grid of feature cards.
 
-OWN-WORLD: Cool driveway concrete for the ground, with faint slab joints. Asphalt ink for type, walls, players, and every line. Saucer-cone orange appears only on cones and on the one flooded join field. The ball is white with ink seams. Coaching-diagram notation throughout: solid line for a pass, dashed for a run, wavy for a dribble, one-word labels. Mona Sans, wide and heavy for headlines and normal width for text. Flat layers only, with no shadows, gradients, or glass.
+OWN-WORLD: Cool driveway concrete for the ground, with faint slab joints. Asphalt ink for type, walls, players, and every line. Saucer-cone orange appears only on cones and on the one flooded join field. The ball is white with ink seams. Coaching-diagram notation throughout: solid line for a pass, dashed for a run, wavy for a dribble, one-word labels. Anybody (variable width) wide and heavy for headlines, Hanken Grotesk for text; Mona Sans was dropped because the detector lists it as overused. Flat layers only, with no shadows, gradients, or glass.
 Raised by the papercut challenger: depth comes only from flat layers overlapping, never from tone.
 Raised by the cloud-edge challenger: type stays achromatic; colour lives on the kit.
 Raised by the VU-meter challenger: every changing number moves with mass and settles; identical cones act as the page's ruler.
@@ -27,7 +27,7 @@ Raised by the title-card challenger: one total colour commitment (the join secti
 
 STORY: A solo player taps in what they have and watches their session lay itself out. It then runs drill by drill on a phone lying beside the cones. They answer "too easy", see tomorrow's setup tighten, and leave their email.
 
-FIRST VIEWPORT: A two-line headline across the top at about 96px. Lower right: the live drill field, bleeding off the right edge, with the kit (wall, cones, goal, a friend) laid along its left edge to tap in. Lower left: one short line and the email form, which is the primary action. Along the bottom edge: a lane of cones that is today's session, with gaps sized by minutes and a 15 / 30 / 45 control.
+FIRST VIEWPORT: A two-line headline across the top at about 96px. Lower right: the live drill field, a window onto the jointed driveway that bleeds off the right edge. Lower left: one short line, the email form (the primary action), then the kit as labelled toggle chips (ball, wall, cones, goal, friend); chips rather than objects on the field edge so every toggle is a real, keyboard-reachable button. Along the bottom edge: a lane of cones that is today's session, with gaps sized by minutes and a 15 / 30 / 45 control.
 
 FORM: Training-ground kit seen from above, candidate 5 of 7 on the ordered list; seed key 2da6c609.
 
