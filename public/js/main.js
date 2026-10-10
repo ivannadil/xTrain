@@ -147,7 +147,7 @@ const joinLane = $('[data-join-lane]');
 const joinTitle = $('[data-join-title]');
 function renderJoin(ses, minutes) {
   joinTitle.textContent = `Your ${minutes} minutes`;
-  joinLane.innerHTML = ses.ids.map((id, i) => `<li><span>${DRILLS[id].name}</span><span class="m">${ses.mins[i]} min</span></li>`).join('');
+  joinLane.innerHTML = ses.ids.map((id, i) => `<li style="flex-grow:${ses.mins[i]}"><span>${DRILLS[id].name}</span><span class="m">${ses.mins[i]} min</span></li>`).join('');
 }
 
 function toggleKit(k) {
@@ -240,7 +240,7 @@ function showRun(i, progress = 0, animate = true) {
   }
   const left = min * 60 * (1 - progress);
   ph.time.textContent = fmt(left);
-  gsap.set(ph.bar, { scaleX: 1 - progress });
+  gsap.set(ph.bar, { scaleX: 1 - progress, autoAlpha: progress > 0.985 ? 0 : 1 });
 }
 const runPin = $('[data-run-pin]');
 if (!still) {
@@ -293,6 +293,16 @@ function variant(id, how) {
     zone: d.zone && (() => { const [x1, y1] = f(d.zone.x, d.zone.y); const [x2, y2] = f(d.zone.x + d.zone.w, d.zone.y + d.zone.h); return { x: x1, y: y1, w: x2 - x1, h: y2 - y1 }; })(),
   };
 }
+// Says exactly what the drawing changes (see variant()).
+function changeText(d, harder) {
+  const has = (k) => d.objects.some((o) => o.kind === k);
+  const cones = d.objects.filter((o) => o.kind === 'cone').length;
+  if (has('wall')) return harder ? 'Harder: start further from the wall.' : 'Easier: start closer to the wall.';
+  if (has('goal')) return harder ? 'Harder: shoot from further out.' : 'Easier: move in closer to the goal.';
+  if (cones > 1) return harder ? 'Harder: the cones move closer together.' : 'Easier: the cones move further apart.';
+  if (has('mate')) return harder ? 'Harder: your friend stands further away.' : 'Easier: your friend moves closer.';
+  return harder ? 'Harder: more ground to cover.' : 'Easier: a smaller space.';
+}
 function showAdapt(animate) {
   const id = state.session.focus;
   const d = DRILLS[id];
@@ -309,9 +319,7 @@ function showAdapt(animate) {
     todayField.set(id, { animate: false });
   }
   adaptField.set(variant(id, rating), { animate: animate && !still });
-  const text = rating === 'easy' ? `Harder: ${d.harder.charAt(0).toLowerCase()}${d.harder.slice(1)}.`
-    : rating === 'hard' ? `Easier: ${d.easier.charAt(0).toLowerCase()}${d.easier.slice(1)}.`
-    : 'Same drill tomorrow, two minutes longer.';
+  const text = rating === 'right' ? 'Same drill tomorrow, two minutes longer.' : changeText(d, rating === 'easy');
   if (animate && !still) {
     gsap.timeline().to(adaptChange, { autoAlpha: 0, y: -6, duration: 0.18 })
       .add(() => { adaptChange.textContent = text; })
@@ -347,11 +355,15 @@ LIBRARY.forEach((id) => {
   const li = document.createElement('li');
   li.className = 'lib-card';
   const need = d.needs.length ? `Ball, ${d.needs.map((n) => gearWords[n]).join(', ')}` : 'Just a ball';
-  li.innerHTML = `<svg class="field" role="img" aria-label="${d.name} setup"></svg><p class="lib-name"></p><p class="lib-meta"></p>`;
+  li.innerHTML = `<p class="lib-tag"><span class="lib-name"></span><span class="lib-meta"></span></p><svg class="field" role="img" aria-label="${d.name} setup"></svg>`;
   li.querySelector('.lib-name').textContent = d.name;
   li.querySelector('.lib-meta').textContent = `${d.block} · ${need}`;
   libTrack.appendChild(li);
-  const f = new Field(li.querySelector('svg'), { labels: false, compact: true });
+  const svg = li.querySelector('svg');
+  const f = new Field(svg, { labels: false, compact: true });
+  // each drill takes the room its setup needs, so the strip reads as one ground, not panes
+  const ext = Math.max(...d.objects.map((o) => o.x + (o.w || 0))) - Math.min(...d.objects.map((o) => o.x));
+  svg.style.width = `${Math.round(Math.min(440, Math.max(240, 170 + ext * 0.5)))}px`;
   f.set(id, { animate: false });
   if (fine && !still) {
     li.addEventListener('pointerenter', () => f.play());
@@ -432,7 +444,7 @@ $$('[data-signup]').forEach((form) => {
       await send({ email, kit: state.kit, minutes: state.minutes, source: form.dataset.source, company: form.company.value, step: 1 });
       lastEmail = email;
       form.classList.add('is-done');
-      say("You're on the list. Check your inbox soon.");
+      say("You're on the list.");
       label.textContent = 'Saved';
       openMore();
     } catch (err) {

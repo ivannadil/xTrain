@@ -140,10 +140,10 @@ export class Field {
       for (let i = 0; i + 1 < nums.length; i += 2) add(nums[i], nums[i + 1]);
     });
     if (drill.zone) { add(drill.zone.x, drill.zone.y); add(drill.zone.x + drill.zone.w, drill.zone.y + drill.zone.h); }
-    const pad = this.compact ? 46 : 70;
+    const pad = this.compact ? 34 : 70;
     x0 -= pad; y0 -= pad; x1 += pad; y1 += pad;
     const aspect = 1000 / 640;
-    let w = Math.max(x1 - x0, this.compact ? 300 : 440), h = Math.max(y1 - y0, w / aspect);
+    let w = Math.max(x1 - x0, this.compact ? 260 : 440), h = Math.max(y1 - y0, w / aspect);
     w = Math.max(w, h * aspect); h = w / aspect;
     const cx = (x0 + x1) / 2, cy = (y0 + y1) / 2;
     let v = [cx - w / 2, cy - h / 2, w, h];
