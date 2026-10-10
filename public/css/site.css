@@ -2,10 +2,17 @@
    Depth comes from flat layers overlapping. No shadows, gradients, or glass. */
 
 @font-face {
-  font-family: 'Mona Sans';
-  src: url('/assets/fonts/MonaSans-VF.woff2') format('woff2');
-  font-weight: 200 900;
-  font-stretch: 75% 125%;
+  font-family: 'Anybody';
+  src: url('/assets/fonts/Anybody-VF.woff2') format('woff2');
+  font-weight: 100 900;
+  font-stretch: 50% 150%;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Hanken Grotesk';
+  src: url('/assets/fonts/HankenGrotesk-VF.woff2') format('woff2');
+  font-weight: 100 900;
   font-style: normal;
   font-display: swap;
 }
@@ -19,14 +26,15 @@
   --slab-joint: oklch(0.82 0.006 150);
   --ink: oklch(0.2 0.008 255);
   --ink-2: oklch(0.42 0.008 255);
-  --ink-3: oklch(0.56 0.006 255);
+  --ink-3: oklch(0.49 0.006 255);
   --cone: oklch(0.69 0.19 44);
   --cone-top: oklch(0.77 0.16 56);
   --cone-deep: oklch(0.6 0.18 38);
   --ball: oklch(0.985 0.002 100);
 
-  --f: 'Mona Sans', ui-sans-serif, system-ui, sans-serif;
-  --wide: 116%;
+  --f: 'Hanken Grotesk', ui-sans-serif, system-ui, sans-serif;
+  --d: 'Anybody', 'Hanken Grotesk', ui-sans-serif, sans-serif;
+  --wide: 112%;
 
   --s1: 4px; --s2: 8px; --s3: 12px; --s4: 16px; --s5: 24px; --s6: 32px;
   --s7: 48px; --s8: 64px; --s9: 96px; --s10: 128px; --s11: 176px;
@@ -88,7 +96,7 @@ a { color: inherit; text-underline-offset: 0.2em; text-decoration-thickness: 1px
   --h: 52px;
   display: inline-flex; align-items: center; justify-content: center; gap: 10px;
   height: var(--h); padding: 0 24px; border: 0; border-radius: var(--r-ctl);
-  font-weight: 620; font-size: 16px; font-stretch: 104%; letter-spacing: 0;
+  font-weight: 620; font-size: 16px; letter-spacing: 0;
   text-decoration: none; white-space: nowrap; cursor: pointer;
   transition: transform 0.16s var(--out), background-color 0.2s var(--out), color 0.2s var(--out);
 }
@@ -147,7 +155,7 @@ a { color: inherit; text-underline-offset: 0.2em; text-decoration-thickness: 1px
 .top.is-stuck { border-bottom: 1px solid var(--joint); }
 .top.on-cone::before { background: var(--cone); }
 .top.on-cone { border-bottom-color: color-mix(in oklch, var(--ink) 14%, transparent); }
-.mark {
+.mark { font-family: var(--d);
   font-weight: 820; font-size: 22px; font-stretch: 122%; letter-spacing: -0.02em; text-decoration: none;
   display: inline-flex; align-items: baseline;
 }
@@ -169,7 +177,7 @@ a { color: inherit; text-underline-offset: 0.2em; text-decoration-thickness: 1px
   padding: 104px var(--gut) var(--s5);
   isolation: isolate;
 }
-.hero-title {
+.hero-title { font-family: var(--d);
   grid-area: title;
   font-size: clamp(46px, min(6.4vw, 10.4svh), 96px);
   line-height: 0.93;
@@ -298,7 +306,7 @@ a { color: inherit; text-underline-offset: 0.2em; text-decoration-thickness: 1px
   align-items: center;
   padding: var(--s9) var(--gut);
 }
-.run h2, .adapt h2, .lib h2 {
+.run h2, .adapt h2, .lib h2 { font-family: var(--d);
   font-size: clamp(34px, 4.3vw, 62px); line-height: 0.98; font-weight: 790; font-stretch: var(--wide); letter-spacing: -0.03em;
   max-width: 12em;
 }
@@ -319,8 +327,8 @@ a { color: inherit; text-underline-offset: 0.2em; text-decoration-thickness: 1px
   display: flex; flex-direction: column; padding: 30px 18px 22px; gap: 4px;
 }
 .ph-count { font-size: 12px; font-weight: 600; color: var(--ink-2); font-variant-numeric: tabular-nums; }
-.ph-name { font-size: 20px; line-height: 1.05; font-weight: 760; font-stretch: 108%; margin-top: 4px; }
-.ph-time { font-size: clamp(46px, 4.6vw, 64px); line-height: 1; font-weight: 800; font-stretch: 112%; letter-spacing: -0.03em; font-variant-numeric: tabular-nums; margin-top: auto; }
+.ph-name { font-family: var(--d); font-size: 20px; line-height: 1.05; font-weight: 760; font-stretch: 108%; margin-top: 4px; }
+.ph-time { font-family: var(--d); font-size: clamp(46px, 4.6vw, 64px); line-height: 1; font-weight: 800; font-stretch: 112%; letter-spacing: -0.03em; font-variant-numeric: tabular-nums; margin-top: auto; }
 .ph-cue { font-size: 14px; line-height: 1.3; font-weight: 540; margin-top: 8px; min-height: 2.6em; }
 .ph-bar { height: 4px; margin-top: 14px; }
 .ph-bar i { display: block; height: 100%; width: 100%; background: var(--cone); border-radius: 2px; transform-origin: left center; }
@@ -337,7 +345,7 @@ a { color: inherit; text-underline-offset: 0.2em; text-decoration-thickness: 1px
 .adapt-day { margin: 0; }
 .adapt-day figcaption { font-size: 15px; font-weight: 680; font-stretch: 104%; margin-bottom: var(--s3); }
 .adapt-ask { display: grid; justify-items: center; gap: var(--s4); text-align: center; }
-.adapt-q { font-size: clamp(20px, 1.8vw, 26px); font-weight: 720; font-stretch: 106%; max-width: 15ch; line-height: 1.15; }
+.adapt-q { font-family: var(--d); font-size: clamp(20px, 1.8vw, 26px); font-weight: 720; font-stretch: 106%; max-width: 15ch; line-height: 1.15; }
 .adapt-btns { display: grid; gap: var(--s2); width: 100%; }
 .adapt-btns .chip { width: 100%; }
 .adapt-change { font-size: 17px; font-weight: 600; margin-top: var(--s3); min-height: 1.5em; }
@@ -355,13 +363,13 @@ a { color: inherit; text-underline-offset: 0.2em; text-decoration-thickness: 1px
 }
 .lib-card .field { pointer-events: none; }
 .lib-card .f-cone-hole { fill: var(--slab); }
-.lib-name { margin: var(--s2) var(--s2) 0; font-size: 19px; font-weight: 720; font-stretch: 106%; line-height: 1.15; }
+.lib-name { font-family: var(--d); margin: var(--s2) var(--s2) 0; font-size: 18px; font-weight: 720; font-stretch: 104%; line-height: 1.15; }
 .lib-meta { margin: 4px var(--s2) 0; font-size: 14px; color: var(--ink-2); font-weight: 520; }
 
 /* ---------- join (the one flooded field) ---------- */
 .join { background: var(--cone); padding: var(--s10) var(--gut) var(--s9); }
 .join-in { max-width: 1200px; }
-.join h2 {
+.join h2 { font-family: var(--d);
   font-size: clamp(40px, 6vw, 88px); line-height: 0.94; font-weight: 820; font-stretch: var(--wide); letter-spacing: -0.035em;
   max-width: 11em;
 }
@@ -390,9 +398,9 @@ a { color: inherit; text-underline-offset: 0.2em; text-decoration-thickness: 1px
 
 /* ---------- footer ---------- */
 .foot { padding: var(--s8) var(--gut) var(--s6); overflow: hidden; }
-.foot-mark {
-  font-weight: 840; font-stretch: 125%; letter-spacing: -0.045em; line-height: 0.8;
-  font-size: clamp(88px, 21vw, 330px); white-space: nowrap;
+.foot-mark { font-family: var(--d);
+  font-weight: 840; font-stretch: 118%; letter-spacing: -0.04em; line-height: 0.8;
+  font-size: clamp(60px, 16.5vw, 280px); white-space: nowrap;
 }
 .foot-row { display: flex; justify-content: space-between; align-items: flex-start; gap: var(--s5); margin-top: var(--s6); font-size: 14px; color: var(--ink-2); font-weight: 500; }
 .foot-privacy summary { cursor: pointer; list-style: none; text-decoration: underline; text-underline-offset: 0.25em; }
@@ -406,7 +414,7 @@ a { color: inherit; text-underline-offset: 0.2em; text-decoration-thickness: 1px
 }
 .more::backdrop { background: color-mix(in oklch, var(--ink) 55%, transparent); }
 .more-in { padding: var(--s6) var(--s6) var(--s5); display: grid; gap: var(--s5); }
-.more h2 { font-size: 40px; font-weight: 820; font-stretch: var(--wide); letter-spacing: -0.03em; line-height: 1; }
+.more h2 { font-family: var(--d); font-size: 40px; font-weight: 820; font-stretch: var(--wide); letter-spacing: -0.03em; line-height: 1; }
 .more-line { color: var(--ink-2); margin-top: calc(var(--s3) * -1); }
 .more fieldset { border: 0; padding: 0; margin: 0; }
 .more legend { font-weight: 660; font-size: 15px; margin-bottom: var(--s3); padding: 0; }
