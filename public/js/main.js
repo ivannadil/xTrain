@@ -360,10 +360,13 @@ LIBRARY.forEach((id) => {
   li.querySelector('.lib-meta').textContent = `${d.block} · ${need}`;
   libTrack.appendChild(li);
   const svg = li.querySelector('svg');
-  const f = new Field(svg, { labels: false, compact: true });
-  // each drill takes the room its setup needs, so the strip reads as one ground, not panes
-  const ext = Math.max(...d.objects.map((o) => o.x + (o.w || 0))) - Math.min(...d.objects.map((o) => o.x));
-  svg.style.width = `${Math.round(Math.min(440, Math.max(240, 170 + ext * 0.5)))}px`;
+  const f = new Field(svg, { labels: false, compact: true, natural: true });
+  // every drill drawn at the same scale, so each takes the ground its setup needs
+  const [, , vw, vh] = f.frame(d);
+  const k = innerWidth < 700 ? 0.5 : 0.6;
+  svg.style.width = `${Math.round(vw * k)}px`;
+  svg.style.height = `${Math.round(vh * k)}px`;
+  li.style.minWidth = `${Math.max(Math.round(vw * k) + 32, 236)}px`;
   f.set(id, { animate: false });
   if (fine && !still) {
     li.addEventListener('pointerenter', () => f.play());
