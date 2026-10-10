@@ -3,12 +3,15 @@
 //   node --env-file=.env.local scripts/export-signups.mjs > signups.csv
 import { list, get } from '@vercel/blob';
 
+const token = process.env.BLOB_READ_WRITE_TOKEN;
+if (!token) { console.error('Set BLOB_READ_WRITE_TOKEN (vercel env pull .env.local)'); process.exit(1); }
+
 const rows = [];
 let cursor;
 do {
-  const page = await list({ prefix: 'signups/', cursor, limit: 1000 });
+  const page = await list({ prefix: 'signups/', cursor, limit: 1000, token });
   for (const b of page.blobs) {
-    const r = await get(b.pathname, { access: 'private', useCache: false });
+    const r = await get(b.pathname, { access: 'private', useCache: false, token });
     const text = await new Response(r.stream).text();
     rows.push(JSON.parse(text));
   }
