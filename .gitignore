@@ -1,10 +1,9 @@
 node_modules
-dist
-dist-artifact
-test-results
-playwright-report
+.vercel
+.env*
+.DS_Store
 .impeccable/review
 .impeccable/live
-.vercel
-.DS_Store
-.env*
+.impeccable/config.local.json
+signups.csv
+.claude

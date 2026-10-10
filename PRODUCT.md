@@ -8,60 +8,67 @@ web
 
 ## Stack
 
-delegated: Vite + React 19 + TypeScript, Tailwind v4 (Vite plugin), Motion (`motion/react`) for UI and layout motion, GSAP ScrollTrigger isolated to landing-page scroll choreography, dnd-kit for plan editing, Phosphor icons, React Router. Chosen because the deliverable is a multi-page, heavily animated prototype the team must run, test (Playwright is installed in this repo), and extend, and because the PRD plans a React Native mobile app plus a web dashboard, so React components and tokens port. The user delegated this choice in the brief ("design everything").
+delegated: one static page with no build step (hand-authored HTML, CSS, and ES modules), GSAP 3 with ScrollTrigger and SplitText plus Lenis vendored into `public/vendor`, and one Vercel serverless function for early-access signups. The user handed every technical decision over on 2026-10-10 ("you do whatever is the best") and asked for the existing GitHub repo (ivannadil/xTrain) and Vercel project (xtrain-pi.vercel.app) to be wiped and reused. The previous React prototype is preserved only at git tag `prototype-final`.
 
 ## Users
 
-Primary (from PRD): youth and amateur soccer players, roughly ages 13-18 in the U.S. (middle/high school and club players) who lack consistent access to quality coaching and train alone in a backyard, park, or local pitch with the phone propped on a wall, stand, or bag. Personas: Alex, 16, high-school team, trains shooting and dribbling in the backyard; Bella, 12, new to football and shy, needs confidence and positive reinforcement, parent checks her progress; Coach Dan, 34, weekend youth coach who wants a dashboard of his players (post-MVP).
+Primary: youth and amateur soccer players, roughly 12 to 18, mostly in the U.S., on school or club teams or no team at all, who want to get better on their own time. The scene is a driveway, a backyard, a park, or a wall behind a school, with one ball and sometimes a cone, a rebounder, a small goal, or a friend. The App Brief describes "the kid who is out in the driveway or at a local park with nothing but a ball". Many are not in expensive clubs and feel they are falling behind.
 
-Secondary (later phases): coaches and parents with permissioned, read-mostly dashboards.
+Beginners (two years of training or less, per the 7/12 team notes) need technique before plans: how to strike a pass, how to take a first touch. Intermediate and advanced players need structure: what to do today, for how long, and what comes next.
+
+Secondary: parents who pay attention to what their kid is doing, and coaches who may later see a player's progress (both post-launch).
 
 ## Product Purpose
 
-xTrain turns a phone into a personal football coach. At signup the player enters name, age, experience level, position, goals, time availability, and equipment; Course AI assembles a personalized multi-week training plan from the drill library. The player can move, swap, shorten, delete, regenerate, and add sessions freely; the app guides each session drill by drill with timer, cues, and rest; progress shows as 0-100 skill ratings, XP, levels, streaks, and badges. Success per PRD: players complete 3+ sessions per week, strong D7/D30 retention, self-reported skill improvement, 4.5+ store rating.
+xTrain gives a solo player the structure of an academy. The player says what they have (time, days, gear, space, people) and what they want (position, goals, weaknesses), and xTrain builds a development plan from a coach-written drill library, then runs each session drill by drill. After every session the player says how it felt (too easy, too hard, unclear) and the plan adjusts. Progress shows as skill ratings, streaks, and rank.
+
+Success for the landing page: a visitor understands this in one viewport, tries it in the next, and joins early access.
 
 ## Positioning
 
-Motto in PRD: "Train like a pro, with AI as your coach." Affordable, accessible, structured coaching for players who cannot afford private coaching. Mechanism a neighbor cannot copy truthfully: the plan is built from the player's own profile, logged sessions, ratings (too easy / too hard), pain reports, and the equipment and space they actually have, and every session carries a plain-language reason ("Because you want to improve speed, Wednesday is a conditioning day"). Lite tier = Course AI (planning, no camera). Full tier = Coach AI (camera pose tracking, rep counting, real-time corrections) in a later phase.
+The plan is built around the space and gear the player actually has, down to "one ball and a wall", and it changes after every session based on the player's own feedback. Neighbors either sell hardware (smart balls, sensors, cameras), scout for clubs, or ship fixed video courses. xTrain sells a plan that fits a driveway.
+
+Name history: the team project was called Playera; the product name is xTrain (set by the user, 2026-10-03, and reconfirmed 2026-10-10). The "x" reads naturally next to football analytics vocabulary (xG, xA), which the copy may use lightly.
 
 ## Operating Context
 
-- Training happens outdoors with the phone at a distance: large tap targets, glanceable session player, optional voice cues, offline-ready session content.
-- Plan navigation decided in PRD: linear scrollable weekly view; day detail with "Start session" and "Mark skipped"; Edit This Week (planned vs target minutes; per-session change duration, move, delete; add session); Create Session (focus area, session type, duration, people, space, equipment, then generate).
-- Session flow: "Drill 2 of 5", purpose, instructions, countdown timer or rep counter, pause, next drill, end session; summary with completion status (full / partial / skipped), minutes trained, RPE 1-10, "Did you feel pain?", save log.
-- Drill library: categories dribbling & ball control, passing, shooting, defending, physical conditioning; search and filter by category, difficulty, equipment, tags such as "no equipment"; drill detail with description, step-by-step, demo video with voice-over, coaching tips, common mistakes, reps/sets/duration suggested from the player's progression, equipment icons; favorite or exclude drills (with a note explaining the drill's benefit before excluding).
-- Progress: skill ratings 0-100 derived from time spent, consistency, drill difficulty, and progression (not biomechanics); streaks; totals; skill breakdown to encourage balance; level and XP (Rookie, Amateur, Pro); achievements page showing the percentage of players who unlocked each badge.
-- AI coach chat answers training questions ("How can I improve my weaker foot?"), links drills, and can adjust the plan within constraints (Phase 2+).
-- Notifications and nudges are friendly, never guilt-inducing.
-- Existing Figma Make prototypes referenced in the PRD use a dark background with bright green primary buttons and black cards; the team's earlier mockups were described as dark navy + turf green. These are evidence of the subject, not a pinned direction.
+- Players train outside, phone propped on a bag or a fence, in sun glare. Big type, few taps.
+- Plan inputs (from the team's Product Feedback and Priorities docs): session length per day, which days and time slots, position, goals broken into focus, weakness, and strength, equipment, space, and how many people are present.
+- Session order the team settled on: warm-up, then basic ball mastery, then a skill or position drill.
+- Each drill: setup, steps, a diagram, a slow-motion demo, a timer or rep counter, and the ability to skip ahead.
+- After a session: a rating (too easy, too hard), and the plan adjusts (tested in the team prototype on 2026-04-25: "too hard" removed advanced drills and renamed the plan).
+- Plan changes by request, in plain words: "I hurt my right knee", "I'm away the week of March 16".
+- A Technique tab teaches the basic strikes and touches (passing short, long, on the ground, in the air; shooting with the laces, the inside, the outside; dribbling) with diagrams and slow-motion 3D demonstrations.
 
 ## Capabilities and Constraints
 
-- Phases: Phase 1 basic app (drills, sessions, logging, progress, gamification, no AI); Phase 2 Course AI plans and feedback loop; Phase 3 Coach AI camera tracking. This website is designed for the Lite (Course AI) scope with the AI coach chat, and leaves Coach AI as a visible roadmap, not a shipped claim.
-- Under-13 users need guardian consent; data stored per account; coach/parent linking is permission-based and revocable.
-- Terminology: Course AI (plan engine), Coach AI (pose tracking tier), plan, week, session, drill, block, set, rep, XP, level, badge, streak, RPE.
-- Undecided (do not invent as fact): pricing (free at launch, freemium later), real drill demonstration videos (none exist yet), mascot or coach persona design, exact rating formula, launch date.
+- Real drill content exists: the team's Drill Library (50 drills in progress across passing, dribbling, first touch, defending, goalkeeping, conditioning) and a detailed "5 drills" set (Toe Taps, Foundation Bell Touches, Sole Rolls, Pull Push, Inside Outside dribble, L Turn). Drill names, setups, equipment, and purposes on the site come from these documents.
+- Shipped in prototypes, not yet in an app store: plan generation, session runner, feedback loop, calendar, drill library, technique demos.
+- Roadmap only, never presented as shipped: camera or uploaded-video form feedback, social (friends, team, leaderboards), the Journey reflection log, calendar sync.
+- Undecided, never invented: price, launch date, platforms and store availability, user counts, partner clubs, coach names, testimonials.
+- Under-13 players need guardian consent before an account exists; the early-access form collects email only and says so.
+- Terminology: plan, session, drill, touch, rep, streak, level. Use "soccer" in U.S. copy; "football" is fine in drill names.
 
 ## Brand Commitments
 
-- Name: xTrain (set by the user on 2026-10-03).
-- Tone: engaging, game-like, encouraging; teen-friendly; positive feedback that celebrates effort as much as outcomes.
-- User-pinned visual constraint: the site must feel "almost futuristic, very very very animated and cool", like a famous AI sports company. Heavy, purposeful motion is a requirement, with full reduced-motion fallbacks.
+- Name: xTrain, written exactly so (lowercase x, capital T).
+- The user's standing bar (2026-10-10): premium, crisp, animation-led, not text-heavy, not empty, never overwhelming, no copy that sounds AI-written, no decorative subtitles or helper lines under headings, and the visitor should be able to touch something meaningful right away. Reference for craft level: synesdj.vercel.app.
+- The earlier xTrain prototype look (green-teal ink, signal orange, "highlight reel") is retired; it is evidence, not authority.
 
 ## Evidence on Hand
 
-- PRD: `/Users/ishanv/Downloads/AI Football Fitness PRD Download.pdf` (33 pages, image-only; rendered pages in the session scratchpad).
-- Prior team work: a 3D technique visualization lab for passing and shooting (`~/Desktop/Claude/inside-foot-pass-lab.html`) that could later feed drill detail pages.
-- No real drill videos, player testimonials, user counts, press, or benchmark data exist. All demo players, stats, and drills in this build are synthetic and labeled as such; do not present them as real.
+- Team documents (Playera folder, unzipped copy in the session scratchpad; originals in the user's Downloads zip): App Brief, Priorities, Product Feedback, In-Depth Product Feedback (prototype test notes, 2026-04-25), Meeting Notes, Notes from Discussion (7/12), Drill Library, 5 drills, Product Validation (planned outreach to 5 to 10 coaches and a club team; no results recorded).
+- 3D push-pass demonstration renders (`push_pass_demo_3d_v7.mp4` and earlier versions) and the 3D technique lab at `~/Desktop/Claude/inside-foot-pass-lab.html`.
+- No testimonials, no user counts, no press, no partner logos, no benchmark data, no real player footage cleared for marketing. Anything illustrative on the site is labeled as an example.
 
 ## Product Principles
 
-1. The plan belongs to the player: every AI decision is editable, reversible, and explained in one sentence.
-2. Glanceable in the field: big targets, high contrast, the fewest taps possible during a session.
-3. Progress is visible and honest: ratings are derived from effort and consistency, and the app says so.
-4. Encourage, never guilt: effort is celebrated; nudges are friendly.
-5. Content quality over quantity: a small library of correct, well-explained drills beats a big one.
+1. Fit the player's real space first: a plan that needs a full pitch is a plan nobody runs.
+2. Technique before volume: a beginner learns the touch before the plan asks for reps of it.
+3. The player's word moves the plan: every session's feedback changes what comes next.
+4. Show the drill, do not describe it: diagrams and motion beat paragraphs.
+5. Encourage, never guilt.
 
 ## Accessibility & Inclusion
 
-Teen audience that includes 12-13 year olds: simple language, large touch targets (44px minimum), strong contrast on dark surfaces for outdoor glare, keyboard-reachable controls, and a complete `prefers-reduced-motion` path given the heavy animation. Text kept translatable for later multi-language support.
+Teen audience including 12 and 13 year olds: plain words, 44px touch targets, strong contrast, keyboard-reachable controls, and a full `prefers-reduced-motion` path since the page is motion-heavy.
