@@ -83,8 +83,9 @@ function wavy(svg, d, amp = 6, wave = 30) {
 }
 
 export class Field {
-  constructor(svg, { labels = true, compact = false, slab = false, room = 0 } = {}) {
+  constructor(svg, { labels = true, compact = false, slab = false, room = 0, natural = false } = {}) {
     this.svg = svg;
+    this.natural = natural;
     this.room = room; // share of the view kept free on the right (for the phone lying there)
     this.labels = labels;
     this.compact = compact;
@@ -142,6 +143,8 @@ export class Field {
     if (drill.zone) { add(drill.zone.x, drill.zone.y); add(drill.zone.x + drill.zone.w, drill.zone.y + drill.zone.h); }
     const pad = this.compact ? 34 : 70;
     x0 -= pad; y0 -= pad; x1 += pad; y1 += pad;
+    // natural framing: the drill's own extent at a shared scale, no minimum, no fixed aspect
+    if (this.natural) return [x0, y0, x1 - x0, y1 - y0].map((n) => +n.toFixed(1));
     const aspect = 1000 / 640;
     let w = Math.max(x1 - x0, this.compact ? 260 : 440), h = Math.max(y1 - y0, w / aspect);
     w = Math.max(w, h * aspect); h = w / aspect;
