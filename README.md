@@ -2,7 +2,9 @@
 
 Soccer training that fits your driveway. xTrain is an AI training app for players who train on their own: tell it what you have (a ball, a wall, cones, a goal, a friend, how many minutes) and it plans the session from the team's drill library, runs it drill by drill, and adjusts the next one from how this one felt.
 
-This repo is the landing page. Live: https://xtrain-pi.vercel.app
+![The first xTrain landing page: pick your equipment and session length, and a drill from the library plays on the right](docs/xtrain-landing.jpg)
+
+xTrain is built by a team of five, and my part was the technical drill library and the movement scanner. This repo is the first version of the landing page and its drill renderer, as of October 2026: `public/js/field.js` draws and animates any drill from data, and `public/js/drills.js` holds drills from the team's library. The team's current site is <https://xtrain-soccer.vercel.app> (this page's first address, xtrain-pi.vercel.app, now forwards there), and the app's code is public on GitLab at <https://gitlab.com/xtrain1/xTrain-project>.
 
 The earlier React prototype of the app lives at the git tag `prototype-final`.
 
